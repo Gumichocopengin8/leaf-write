@@ -5,8 +5,10 @@ export interface HagakiData {
   address1: string;
   address2: string;
   lastName: string;
-  firstNames: string[];
-  suffixes: string[];
+  firstNameSuffixList: {
+    firstName: string;
+    suffix: string;
+  }[];
 }
 
 export interface HagakiCSVData {

@@ -6,8 +6,8 @@ const Document = () => {
       <Head>
         <style>{`body {
             all: unset;
+            overflow-y: hidden;
             font-family: 'Noto Serif JP', serif, Arial, Helvetica, sans-serif;
-            overflow-y: scroll;
           }
           input {
             outline: 0;

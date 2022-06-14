@@ -3,7 +3,7 @@ import type { NextPage } from 'next';
 import Head from 'next/head';
 import { css } from '@emotion/react';
 import HagakiDislay from 'components/hagaki';
-import CSVReader from 'components/CSVReader';
+import CSVReader from 'components/common/CSVReader';
 import { AppContext } from 'state/context';
 
 const Home: NextPage = () => {
@@ -14,10 +14,9 @@ const Home: NextPage = () => {
       <Head>
         <title>Nengajo Kit</title>
       </Head>
-      <HagakiDislay />
       <CSVReader />
       {hagakiStore.hagakiData.map((d) => (
-        <div key={d.id}>{d.address1}</div>
+        <HagakiDislay key={d.id} hagakiInfo={d} />
       ))}
     </>
   );

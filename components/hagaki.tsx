@@ -1,9 +1,16 @@
-import { useRef } from 'react';
+import { useRef, useContext } from 'react';
 import Head from 'next/head';
 import ReactToPrint from 'react-to-print';
 import { css } from '@emotion/react';
+import { HagakiData } from 'interfaces/hagaki';
+import { AppContext } from 'state/context';
 
-const HagakiDislay = () => {
+interface Props {
+  hagakiInfo: HagakiData;
+}
+
+const HagakiDislay = ({ hagakiInfo }: Props) => {
+  const { myInfoStore } = useContext(AppContext);
   const componentRef = useRef<HTMLDivElement>(null);
 
   return (
@@ -21,34 +28,32 @@ const HagakiDislay = () => {
           <img css={NengajoImage} src="/hagaki.png" height="100%" alt="nengajo" />
           <div ref={componentRef}>
             <div>
-              <div css={PostalCodeLeft}>123</div>
-              <div css={PostalCodeRight}>4567</div>
-              <div css={Address1}>八王子市元本郷町3-24-1</div>
-              <div css={Address2}>新築アパートメント３番館109</div>
+              <div css={PostalCodeLeft}>{hagakiInfo.postalcode_left}</div>
+              <div css={PostalCodeRight}>{hagakiInfo.postalcode_right}</div>
+              <div css={Address1}>{hagakiInfo.address1}</div>
+              <div css={Address2}>{hagakiInfo.address2}</div>
               <div css={Name}>
-                <div>佐藤</div>
+                <div>{hagakiInfo.lastName}</div>
                 <div>
-                  <div css={Suffix}>
-                    <div>奈々恵</div>
-                    <div>様</div>
-                  </div>
-                  <div css={Suffix}>
-                    <div>奈々</div>
-                    <div>様</div>
-                  </div>
+                  {hagakiInfo.firstNameSuffixList.map((d, index) => (
+                    <div key={index} css={Suffix}>
+                      <div>{d.firstName}</div>
+                      <div>{d.suffix}</div>
+                    </div>
+                  ))}
                 </div>
               </div>
             </div>
             <div>
-              <div css={FromAddress1}>八王子市元本郷町3-24-1</div>
-              <div css={FromAddress2}>新築アパートメント３番館109</div>
-              <div css={FromLastName}>鈴木</div>
+              <div css={FromAddress1}>{myInfoStore.myInfoData.address1}</div>
+              <div css={FromAddress2}>{myInfoStore.myInfoData.address2}</div>
+              <div css={FromLastName}>{myInfoStore.myInfoData.lastName}</div>
               <div css={FromFirstName}>
-                <div>かな</div>
-                <div>かな</div>
+                <div>{myInfoStore.myInfoData.firstName1}</div>
+                <div>{myInfoStore.myInfoData.firstName2}</div>
               </div>
-              <div css={FromPostalCodeLeft}>123</div>
-              <div css={FromPostalCodeRight}>4567</div>
+              <div css={FromPostalCodeLeft}>{myInfoStore.myInfoData.postalcode_left}</div>
+              <div css={FromPostalCodeRight}>{myInfoStore.myInfoData.postalcode_right}</div>
             </div>
           </div>
         </div>
