@@ -1,7 +1,9 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
+import Link from 'next/link';
 import { css } from '@emotion/react';
 import { Box, Tabs, Tab, Typography } from '@mui/material';
+import EnergySavingsLeafIcon from '@mui/icons-material/EnergySavingsLeaf';
 
 const NavBar = () => {
   const router = useRouter();
@@ -17,6 +19,9 @@ const NavBar = () => {
         break;
       case `/myinfo`:
         setTabValue(2);
+        break;
+      case '/tutorial':
+        setTabValue(3);
         break;
       default: // 404 page
         setTabValue(100);
@@ -35,6 +40,9 @@ const NavBar = () => {
       case 2:
         router.push({ pathname: `/myinfo` });
         break;
+      case 3:
+        router.push({ pathname: `/tutorial` });
+        break;
       default:
         break;
     }
@@ -43,20 +51,18 @@ const NavBar = () => {
 
   return (
     <div css={NavContainer}>
-      <Typography variant="h6" gutterBottom component="div">
-        Nengajo Kit
-      </Typography>
+      <Link href="/">
+        <Typography style={{ cursor: 'pointer' }} variant="h6" gutterBottom component="div">
+          リーフライト
+          <EnergySavingsLeafIcon color="success" />
+        </Typography>
+      </Link>
       <Box sx={{ display: 'flex', flexGrow: 1, bgcolor: 'background.paper' }}>
-        <Tabs
-          value={tabValue}
-          onChange={onTabChange}
-          textColor={'secondary'}
-          indicatorColor={'secondary'}
-          orientation="vertical"
-        >
+        <Tabs value={tabValue} onChange={onTabChange} orientation="vertical">
           <Tab label={'Home'} />
           <Tab label={'Address Book'} />
           <Tab label={'My Info'} />
+          <Tab label={'Tutorial'} />
         </Tabs>
       </Box>
     </div>

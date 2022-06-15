@@ -29,7 +29,7 @@ const AppProvider = ({ children }: Props) => {
       myInfoStore: myInfoState,
       myInfoataDispatch: myInfoDispatch,
     }),
-    [hagakiState]
+    [hagakiState, myInfoState]
   );
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
 };

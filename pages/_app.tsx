@@ -11,8 +11,8 @@ function MyApp({ Component, pageProps }: AppProps) {
       <div css={Wrapper}>
         <>
           <Head>
-            <title>Nengajo Kit</title>
-            <meta name="description" content="Nengajo Kit" />
+            <title>リーフライト</title>
+            <meta name="description" content="リーフライト" />
             <link rel="icon" href="/favicon.ico" />
           </Head>
           <div css={GridContainer}>

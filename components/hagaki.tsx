@@ -1,5 +1,4 @@
 import { useRef, useContext } from 'react';
-import Head from 'next/head';
 import ReactToPrint from 'react-to-print';
 import { css } from '@emotion/react';
 import { HagakiData } from 'interfaces/hagaki';
@@ -15,9 +14,6 @@ const HagakiDislay = ({ hagakiInfo }: Props) => {
 
   return (
     <>
-      <Head>
-        <title>Nengajo Kit</title>
-      </Head>
       <div>
         <ReactToPrint
           pageStyle="@page { size: 3.94in 5.83in }"

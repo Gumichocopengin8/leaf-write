@@ -4,7 +4,11 @@ import { v4 as uuidv4 } from 'uuid';
 import { AppContext } from 'state/context';
 import { HagakiData, HagakiCSVData } from 'interfaces/hagaki';
 
-const CSVReader = () => {
+interface Props {
+  id?: string; // id for label
+}
+
+const CSVReader = ({ id }: Props) => {
   const { hagakiDataDispatch } = useContext(AppContext);
 
   const onUploadFile = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -67,7 +71,7 @@ const CSVReader = () => {
 
   return (
     <>
-      <input type="file" accept=".csv" onChange={onUploadFile} />
+      <input id={id} type="file" accept=".csv" onChange={onUploadFile} />
     </>
   );
 };

@@ -1,25 +1,39 @@
-import { useContext } from 'react';
+import { useContext, useState, useEffect } from 'react';
+import { Button } from '@mui/material';
 import { DataGrid, GridToolbarContainer, GridColDef, GridToolbarExport } from '@mui/x-data-grid';
+import FileUploadOutlinedIcon from '@mui/icons-material/FileUploadOutlined';
 import { AppContext } from 'state/context';
-
-interface HagakiTableFormat {
-  id: string;
-  postalCode: string;
-  address1: string;
-  address2: string;
-  lastName: string;
-  firstName1: string;
-  firstName2: string;
-  firstName3: string;
-  firstName4: string;
-  suffix1: string;
-  suffix2: string;
-  suffix3: string;
-  suffix4: string;
-}
+import { AddressList } from 'interfaces/addressBook';
+import NewAddressDialog from 'components/newAddressDialog';
+import CSVReader from 'components/common/CSVReader';
 
 const AddressBook = () => {
   const { hagakiStore } = useContext(AppContext);
+  const [openDialog, setOpenDialog] = useState<boolean>(false);
+  const [rows, setRows] = useState<AddressList[]>([]);
+
+  const onOpenDialog = () => setOpenDialog(true);
+
+  const onCloseDialog = () => setOpenDialog(false);
+
+  useEffect(() => {
+    const newRows: AddressList[] = hagakiStore.hagakiData.map((d) => ({
+      id: d.id,
+      postalCode: `${d.postalcode_left}-${d.postalcode_right}`,
+      address1: d.address1,
+      address2: d.address2,
+      lastName: d.lastName,
+      firstName1: d.firstNameSuffixList[0].firstName,
+      firstName2: d.firstNameSuffixList[1].firstName,
+      firstName3: d.firstNameSuffixList[2].firstName,
+      firstName4: d.firstNameSuffixList[3].firstName,
+      suffix1: d.firstNameSuffixList[0].suffix,
+      suffix2: d.firstNameSuffixList[1].suffix,
+      suffix3: d.firstNameSuffixList[2].suffix,
+      suffix4: d.firstNameSuffixList[3].suffix,
+    }));
+    setRows(newRows);
+  }, [hagakiStore]);
 
   const columns: GridColDef[] = [
     { field: 'id', headerName: 'ID', width: 90, hideable: false },
@@ -121,26 +135,23 @@ const AddressBook = () => {
     },
   ];
 
-  const rows: HagakiTableFormat[] = hagakiStore.hagakiData.map((d) => ({
-    id: d.id,
-    postalCode: `${d.postalcode_left}-${d.postalcode_right}`,
-    address1: d.address1,
-    address2: d.address2,
-    lastName: d.lastName,
-    firstName1: d.firstNameSuffixList[0].firstName,
-    firstName2: d.firstNameSuffixList[1].firstName,
-    firstName3: d.firstNameSuffixList[2].firstName,
-    firstName4: d.firstNameSuffixList[3].firstName,
-    suffix1: d.firstNameSuffixList[0].suffix,
-    suffix2: d.firstNameSuffixList[1].suffix,
-    suffix3: d.firstNameSuffixList[2].suffix,
-    suffix4: d.firstNameSuffixList[3].suffix,
-  }));
+  const addNewAddress = (newRow: AddressList) => {
+    setRows([...rows, newRow]);
+  };
 
   const CustomToolbar = () => {
     return (
       <GridToolbarContainer>
         <GridToolbarExport />
+        <label htmlFor="csv-button-file">
+          <div style={{ display: 'none' }}>
+            <CSVReader id="csv-button-file" />
+          </div>
+          <Button component="span" startIcon={<FileUploadOutlinedIcon />}>
+            Import CSV
+          </Button>
+        </label>
+        <Button onClick={onOpenDialog}>住所追加</Button>
       </GridToolbarContainer>
     );
   };
@@ -150,14 +161,15 @@ const AddressBook = () => {
       <DataGrid
         rows={rows}
         columns={columns}
-        pageSize={5}
-        rowsPerPageOptions={[5]}
+        pageSize={10}
+        rowsPerPageOptions={[10, 20, 25, 50, 100]}
         checkboxSelection
         disableSelectionOnClick
         components={{
           Toolbar: CustomToolbar,
         }}
       />
+      <NewAddressDialog open={openDialog} addNewRow={addNewAddress} onCloseDialog={onCloseDialog} />
     </div>
   );
 };
