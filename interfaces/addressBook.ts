@@ -1,13 +1,14 @@
+// Use snake case due to CSV export format in address book page
 export interface AddressList {
   id: string;
-  postalCode: string;
+  postal_code: string;
   address1: string;
   address2: string;
-  lastName: string;
-  firstName1: string;
-  firstName2: string;
-  firstName3: string;
-  firstName4: string;
+  last_name: string;
+  first_name1: string;
+  first_name2: string;
+  first_name3: string;
+  first_name4: string;
   suffix1: string;
   suffix2: string;
   suffix3: string;

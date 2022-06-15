@@ -25,14 +25,14 @@ const AddressBook = () => {
   useEffect(() => {
     const newRows: AddressList[] = hagakiStore.hagakiData.map((d) => ({
       id: d.id,
-      postalCode: `${d.postalcode_left}-${d.postalcode_right}`,
+      postal_code: `${d.postalcode_left}-${d.postalcode_right}`,
       address1: d.address1,
       address2: d.address2,
-      lastName: d.lastName,
-      firstName1: d.firstNameSuffixList[0].firstName,
-      firstName2: d.firstNameSuffixList[1].firstName,
-      firstName3: d.firstNameSuffixList[2].firstName,
-      firstName4: d.firstNameSuffixList[3].firstName,
+      last_name: d.lastName,
+      first_name1: d.firstNameSuffixList[0].firstName,
+      first_name2: d.firstNameSuffixList[1].firstName,
+      first_name3: d.firstNameSuffixList[2].firstName,
+      first_name4: d.firstNameSuffixList[3].firstName,
       suffix1: d.firstNameSuffixList[0].suffix,
       suffix2: d.firstNameSuffixList[1].suffix,
       suffix3: d.firstNameSuffixList[2].suffix,
@@ -174,7 +174,6 @@ const AddressBook = () => {
       <DataGrid
         rows={rows}
         columns={columns}
-        pageSize={10}
         rowsPerPageOptions={[10, 20, 25, 50, 100]}
         checkboxSelection
         disableSelectionOnClick
