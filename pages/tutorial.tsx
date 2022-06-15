@@ -1,4 +1,4 @@
-import { Divider, Typography } from '@mui/material';
+import { Divider, Typography, Link } from '@mui/material';
 import { css } from '@emotion/react';
 
 const Tutorial = () => {
@@ -92,8 +92,16 @@ const Tutorial = () => {
             の画面左上にある住所追加ボタンから１つずつ入力する方法です。
           </Typography>
           <Typography variant="body1" paragraph>
-            ２つ目はCSVファイルをインポートして作成することです。CSVファイルはこちらダウンロードしてご利用ください。
-            郵便番号は<mark css={HighLight}>123-4567</mark>のように<strong>ハイフンを忘れない</strong>
+            ２つ目はCSVファイルをインポートして作成することです。CSVファイルは
+            <Link
+              href="https://github.com/Gumichocopengin8/leaf-write/blob/main/public/nengajo.csv"
+              target="_blank"
+              rel="noreferrer"
+            >
+              こちら
+            </Link>
+            からダウンロードしてご利用ください。 郵便番号は<mark css={HighLight}>123-4567</mark>のように
+            <strong>ハイフンを忘れない</strong>
             ようにしてください。
           </Typography>
         </article>
