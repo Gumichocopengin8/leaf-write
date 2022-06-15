@@ -1,5 +1,5 @@
-import { useContext, useState } from 'react';
-import { TextField, Button, FormControl, Typography, Alert, Snackbar } from '@mui/material';
+import { useContext } from 'react';
+import { TextField, Button, FormControl, Typography } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import { css } from '@emotion/react';
 import { MyInfoData } from 'interfaces/myInfo';
@@ -17,8 +17,7 @@ type MyInfoType = {
 };
 
 const MyInfo = () => {
-  const { myInfoStore, myInfoataDispatch } = useContext(AppContext);
-  const [isOpenStackbar, setIsOpenStacknar] = useState<boolean>(false);
+  const { myInfoStore, myInfoataDispatch, stackbarDispatch: errorDispatch } = useContext(AppContext);
 
   const {
     register,
@@ -38,10 +37,8 @@ const MyInfo = () => {
       firstName2: data.firstName2,
     };
     myInfoataDispatch({ type: 'update', newState: myInfoData });
-    setIsOpenStacknar(true);
+    errorDispatch({ type: 'open', message: 'Successfully Saved', severity: 'success' });
   };
-
-  const onCloseSnackbar = () => setIsOpenStacknar(false);
 
   return (
     <div css={Container}>
@@ -123,16 +120,6 @@ const MyInfo = () => {
           </Button>
         </FormControl>
       </form>
-      <Snackbar
-        open={isOpenStackbar}
-        autoHideDuration={5000}
-        anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-        onClose={onCloseSnackbar}
-      >
-        <Alert onClose={onCloseSnackbar} severity="success" sx={{ width: '100%' }}>
-          Successfully Saved
-        </Alert>
-      </Snackbar>
     </div>
   );
 };

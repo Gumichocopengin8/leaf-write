@@ -4,6 +4,7 @@ import { Divider } from '@mui/material';
 import { css } from '@emotion/react';
 import { AppProvider } from 'state/context';
 import NavBar from 'components/common/navbar';
+import MainLayout from 'components/layout/mainLayout';
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
@@ -20,9 +21,9 @@ function MyApp({ Component, pageProps }: AppProps) {
               <NavBar />
               <Divider orientation="vertical" />
             </nav>
-            <main css={[MainContainer, Main]}>
+            <MainLayout>
               <Component {...pageProps} />
-            </main>
+            </MainLayout>
           </div>
         </>
       </div>
@@ -51,18 +52,6 @@ const TabNavContainer = css`
   padding: 1rem 0;
   display: flex;
   gap: 0.5rem;
-`;
-
-const MainContainer = css`
-  grid-area: content;
-  min-width: 860px;
-  height: 100vh;
-  overflow-y: hidden;
-  box-sizing: border-box;
-`;
-
-const Main = css`
-  overflow-y: scroll;
 `;
 
 export default MyApp;

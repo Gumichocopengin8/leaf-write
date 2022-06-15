@@ -1,5 +1,5 @@
 // Use snake case due to CSV export format in address book page
-export interface AddressList {
+export interface AddressRow {
   id: string;
   postal_code: string;
   address1: string;

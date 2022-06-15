@@ -2,7 +2,7 @@ import { Button, TextField, Dialog, DialogActions, DialogContent, DialogTitle } 
 import { useForm } from 'react-hook-form';
 import { v4 as uuidv4 } from 'uuid';
 import { css } from '@emotion/react';
-import { AddressList } from 'interfaces/addressBook';
+import { AddressRow } from 'interfaces/addressBook';
 import TextFieldPersonIcon from 'components/common/textFieldPersonIcon';
 import TextFieldHomeIcon from 'components/common/textFieldHomeIcon';
 
@@ -23,7 +23,7 @@ type NewAddressType = {
 
 interface Props {
   open: boolean;
-  addNewRow: (data: AddressList) => void;
+  addNewRow: (data: AddressRow) => void;
   onCloseDialog: () => void;
 }
 
@@ -35,7 +35,7 @@ const NewAddressDialog = ({ open, addNewRow, onCloseDialog }: Props) => {
   } = useForm<NewAddressType>();
 
   const onSubmit = (data: NewAddressType) => {
-    const newRow: AddressList = {
+    const newRow: AddressRow = {
       id: uuidv4(),
       postal_code: data.postalCode,
       address1: data.address1,

@@ -11,7 +11,6 @@ export type HagakiDataType =
     }
   | {
       type: 'update_by_id';
-      id: string;
       data: Readonly<HagakiData>;
     }
   | {
@@ -24,7 +23,7 @@ export const hagakiDataReducer = (state: HagakiStore, action: HagakiDataType): H
       return { hagakiData: [...state.hagakiData, ...action.newState] };
     case 'update_by_id':
       return {
-        hagakiData: [...state.hagakiData].map((data) => (data.id === action.id ? { ...action.data } : data)),
+        hagakiData: [...state.hagakiData.map((data) => (data.id === action.data.id ? { ...action.data } : data))],
       };
     case 'clear':
       return { ...hagakiDataInitialState };
