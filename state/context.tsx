@@ -18,20 +18,20 @@ const AppContext = createContext<{
   myInfoStore: MyInfoStore;
   myInfoataDispatch: Dispatch<MyInfoDataType>;
   stackbarStore: SnackbarStore;
-  stackbarDispatch: Dispatch<SnackbarDataType>;
+  snackbarDispatch: Dispatch<SnackbarDataType>;
 }>({
   hagakiStore: hagakiDataInitialState,
   hagakiDataDispatch: () => null,
   myInfoStore: myInfoDataInitialState,
   myInfoataDispatch: () => null,
   stackbarStore: snackbarDataInitialState,
-  stackbarDispatch: () => null,
+  snackbarDispatch: () => null,
 });
 
 const AppProvider = ({ children }: Props) => {
   const [hagakiState, hagakiDispatch] = useReducer(hagakiDataReducer, hagakiDataInitialState);
   const [myInfoState, myInfoDispatch] = useReducer(myInfoDataReducer, myInfoDataInitialState);
-  const [snackbarState, stackbarDispatch] = useReducer(snackbarDataReducer, snackbarDataInitialState);
+  const [snackbarState, snackbarDispatch] = useReducer(snackbarDataReducer, snackbarDataInitialState);
 
   const value = useMemo(
     () => ({
@@ -40,7 +40,7 @@ const AppProvider = ({ children }: Props) => {
       myInfoStore: myInfoState,
       myInfoataDispatch: myInfoDispatch,
       stackbarStore: snackbarState,
-      stackbarDispatch: stackbarDispatch,
+      snackbarDispatch: snackbarDispatch,
     }),
     [hagakiState, myInfoState, snackbarState]
   );

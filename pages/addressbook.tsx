@@ -17,7 +17,7 @@ import { HagakiData } from 'interfaces/hagaki';
 import { convertToHagakiData } from 'utils/converter';
 
 const AddressBook = () => {
-  const { hagakiStore, hagakiDataDispatch, stackbarDispatch } = useContext(AppContext);
+  const { hagakiStore, hagakiDataDispatch, snackbarDispatch } = useContext(AppContext);
   const [openDialog, setOpenDialog] = useState<boolean>(false);
   const [rowMap, setRowMap] = useState<Map<string, AddressRow>>(new Map());
 
@@ -107,7 +107,7 @@ const AddressBook = () => {
       if (editedField === 'postal_code') {
         const isValidated = /^\d{3}-\d{4}$/.test(String(newValue));
         if (!isValidated) {
-          stackbarDispatch({ type: 'open', message: '郵便番号がフォーマットが正しくありません', severity: 'error' });
+          snackbarDispatch({ type: 'open', message: '郵便番号がフォーマットが正しくありません', severity: 'error' });
           return;
         }
       }
@@ -118,7 +118,7 @@ const AddressBook = () => {
         hagakiDataDispatch({ type: 'update_by_id', data: newHagakiData });
       } catch (e) {
         console.error(e);
-        stackbarDispatch({ type: 'open', message: '郵便番号がフォーマットが正しくありません', severity: 'error' });
+        snackbarDispatch({ type: 'open', message: '郵便番号がフォーマットが正しくありません', severity: 'error' });
       }
     }
   };

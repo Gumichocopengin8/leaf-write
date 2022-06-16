@@ -5,7 +5,7 @@ import { HagakiData, HagakiCSVData } from 'interfaces/hagaki';
 import { convertCSVtoHagakiData } from 'utils/converter';
 
 export const useUploadCSV = () => {
-  const { hagakiDataDispatch, stackbarDispatch } = useContext(AppContext);
+  const { hagakiDataDispatch, snackbarDispatch } = useContext(AppContext);
 
   const uploadCSV = (file: File) => {
     const fileReader = new FileReader();
@@ -24,9 +24,9 @@ export const useUploadCSV = () => {
             } catch (err) {
               console.error(err);
               if (err instanceof Error) {
-                stackbarDispatch({
+                snackbarDispatch({
                   type: 'open',
-                  message: `${err.message}`,
+                  message: `${err.message}. CSVをインポートできませんでした。書式が正しいか確認してみてください。`,
                   severity: 'error',
                 });
               }

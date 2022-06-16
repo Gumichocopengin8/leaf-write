@@ -17,13 +17,20 @@ type MyInfoType = {
 };
 
 const MyInfo = () => {
-  const { myInfoStore, myInfoataDispatch, stackbarDispatch: errorDispatch } = useContext(AppContext);
+  const { myInfoStore, myInfoataDispatch, snackbarDispatch } = useContext(AppContext);
 
   const {
+    reset,
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<MyInfoType>();
+
+  const onCancel = () => {
+    myInfoataDispatch({ type: 'clear' });
+    snackbarDispatch({ type: 'open', message: '無事クリア', severity: 'success' });
+    reset();
+  };
 
   const onSubmit = (data: MyInfoType) => {
     const postalCode = data.postalCode.split('-');
@@ -37,7 +44,7 @@ const MyInfo = () => {
       firstName2: data.firstName2,
     };
     myInfoataDispatch({ type: 'update', newState: myInfoData });
-    errorDispatch({ type: 'open', message: 'Successfully Saved', severity: 'success' });
+    snackbarDispatch({ type: 'open', message: '保存成功', severity: 'success' });
   };
 
   return (
@@ -115,9 +122,14 @@ const MyInfo = () => {
               />
             </div>
           </div>
-          <Button fullWidth type="submit" variant="outlined">
-            Save
-          </Button>
+          <div css={ButtonGroup}>
+            <Button fullWidth onClick={onCancel} variant="outlined">
+              Clear
+            </Button>
+            <Button fullWidth type="submit" variant="contained">
+              Save
+            </Button>
+          </div>
         </FormControl>
       </form>
     </div>
@@ -149,6 +161,12 @@ const FirstNameSuffixContainer = css`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  gap: 1rem;
+`;
+
+const ButtonGroup = css`
+  display: flex;
+  align-items: center;
   gap: 1rem;
 `;
 

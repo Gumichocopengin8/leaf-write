@@ -8,10 +8,10 @@ interface Props {
 }
 
 const MainLayout: React.FC<Props> = ({ children }: Props) => {
-  const { stackbarStore, stackbarDispatch } = useContext(AppContext);
+  const { stackbarStore, snackbarDispatch } = useContext(AppContext);
 
   const onCloseStackbar = () => {
-    stackbarDispatch({ type: 'close' });
+    snackbarDispatch({ type: 'close' });
   };
 
   return (
