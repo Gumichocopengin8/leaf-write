@@ -1,5 +1,4 @@
-import { useRef, useContext } from 'react';
-import ReactToPrint from 'react-to-print';
+import { useContext, RefObject } from 'react';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { HagakiData } from 'interfaces/hagaki';
@@ -7,72 +6,66 @@ import { AppContext } from 'state/context';
 
 interface Props {
   hagakiInfo: HagakiData;
+  isPrintMode: boolean;
+  componentRef?: RefObject<HTMLDivElement>;
 }
 
-const HagakiDislay = ({ hagakiInfo }: Props) => {
+const HagakiDislay = ({ hagakiInfo, isPrintMode, componentRef }: Props) => {
   const { myInfoStore } = useContext(AppContext);
-  const componentRef = useRef<HTMLDivElement>(null);
 
   const numberOfFirstNames = () => hagakiInfo.firstNameSuffixList.filter((d) => d.firstName).length;
 
   return (
     <>
-      <div>
-        <ReactToPrint
-          pageStyle="@page { size: 3.94in 5.83in }"
-          trigger={() => <button>印刷</button>}
-          content={() => componentRef.current}
-        />
-        <div css={WorkSpace}>
-          <img css={NengajoImage} src="/hagaki.png" height="100%" alt="nengajo" />
-          <div ref={componentRef}>
-            <div>
-              <div css={PostalCodeLeft}>{hagakiInfo.postalcode_left}</div>
-              <div css={PostalCodeRight}>{hagakiInfo.postalcode_right}</div>
-              <div css={Address1}>{hagakiInfo.address1}</div>
-              <div css={Address2}>{hagakiInfo.address2}</div>
-              <Name size={numberOfFirstNames()}>
-                <div>{hagakiInfo.lastName}</div>
-                <div>
-                  {hagakiInfo.firstNameSuffixList.map((d, index) => (
-                    <div key={index} css={Suffix}>
-                      <div>{d.firstName}</div>
-                      <div>{d.suffix}</div>
-                    </div>
-                  ))}
-                </div>
-              </Name>
-            </div>
-            <div>
-              <div css={FromAddress1}>{myInfoStore.myInfoData.address1}</div>
-              <div css={FromAddress2}>{myInfoStore.myInfoData.address2}</div>
-              <div css={FromName}>
-                <div>{myInfoStore.myInfoData.lastName}</div>
-                <div css={FromFirstName}>
-                  <div>{myInfoStore.myInfoData.firstName1}</div>
-                  <div>{myInfoStore.myInfoData.firstName2}</div>
-                </div>
+      <WorkSpace isPrintMode={isPrintMode}>
+        <NengajoImage isPrintMode={isPrintMode} src="/nengajo.png" loading="lazy" alt="nengajo" />
+        <div ref={componentRef}>
+          <div>
+            <div css={PostalCodeLeft}>{hagakiInfo.postalcode_left}</div>
+            <div css={PostalCodeRight}>{hagakiInfo.postalcode_right}</div>
+            <div css={Address1}>{hagakiInfo.address1}</div>
+            <div css={Address2}>{hagakiInfo.address2}</div>
+            <Name size={numberOfFirstNames()}>
+              <div>{hagakiInfo.lastName}</div>
+              <div>
+                {hagakiInfo.firstNameSuffixList.map((d, index) => (
+                  <div key={index} css={Suffix}>
+                    <div>{d.firstName}</div>
+                    <div>{d.suffix}</div>
+                  </div>
+                ))}
               </div>
-              <div css={FromPostalCodeLeft}>{myInfoStore.myInfoData.postalcode_left}</div>
-              <div css={FromPostalCodeRight}>{myInfoStore.myInfoData.postalcode_right}</div>
+            </Name>
+          </div>
+          <div>
+            <div css={FromAddress1}>{myInfoStore.myInfoData.address1}</div>
+            <div css={FromAddress2}>{myInfoStore.myInfoData.address2}</div>
+            <div css={FromName}>
+              <div>{myInfoStore.myInfoData.lastName}</div>
+              <div css={FromFirstName}>
+                <div>{myInfoStore.myInfoData.firstName1}</div>
+                <div>{myInfoStore.myInfoData.firstName2}</div>
+              </div>
             </div>
+            <div css={FromPostalCodeLeft}>{myInfoStore.myInfoData.postalcode_left}</div>
+            <div css={FromPostalCodeRight}>{myInfoStore.myInfoData.postalcode_right}</div>
           </div>
         </div>
-      </div>
+      </WorkSpace>
     </>
   );
 };
 
-const WorkSpace = css`
+const WorkSpace = styled.div<{ isPrintMode: boolean }>`
   position: relative;
   width: fit-content;
-  height: fit-content;
-  transform: scale(calc(0.8));
+  height: 100vh;
+  border: ${(props) => (props.isPrintMode ? '0px' : '1px solid gray')};
 `;
 
-const NengajoImage = css`
-  height: 100vh;
-  border: 1px solid gray;
+const NengajoImage = styled.img<{ isPrintMode: boolean }>`
+  height: 100%;
+  visibility: ${(props) => (props.isPrintMode ? 'hidden' : 'visible')};
 `;
 
 const PostalCode = css`

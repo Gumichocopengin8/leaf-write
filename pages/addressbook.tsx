@@ -125,7 +125,7 @@ const AddressBook = () => {
         rows={Array.from(rowMap.values())}
         columns={columns}
         rowsPerPageOptions={[10, 20, 25, 50, 100]}
-        checkboxSelection
+        // checkboxSelection
         disableSelectionOnClick
         components={{
           Toolbar: CustomToolbar,

@@ -1,15 +1,17 @@
 import { useContext } from 'react';
 import type { NextPage } from 'next';
-import Head from 'next/head';
 import Link from 'next/link';
 import { Typography, Button } from '@mui/material';
 import EnergySavingsLeafIcon from '@mui/icons-material/EnergySavingsLeaf';
 import { css } from '@emotion/react';
 import HagakiDislay from 'components/hagaki';
+import HagakiWithPrint from 'components/hagakiWithPrint';
+import { usePrint } from 'hooks/usePrint';
 import { AppContext } from 'state/context';
 
 const Home: NextPage = () => {
   const { hagakiStore } = useContext(AppContext);
+  const { componentRef, onPrint } = usePrint();
 
   if (hagakiStore.hagakiData.length === 0) {
     return (
@@ -31,12 +33,19 @@ const Home: NextPage = () => {
 
   return (
     <>
-      <Head>
-        <title>Nengajo Kit</title>
-      </Head>
-      {hagakiStore.hagakiData.map((d) => (
-        <HagakiDislay key={d.id} hagakiInfo={d} />
-      ))}
+      <button onClick={onPrint}>一括印刷</button>
+      <div ref={componentRef}>
+        {hagakiStore.hagakiData.map((d) => (
+          <HagakiWithPrint key={d.id} hagakiInfo={d} />
+        ))}
+      </div>
+      <div style={{ display: 'none' }}>
+        <div ref={componentRef}>
+          {hagakiStore.hagakiData.map((d) => (
+            <HagakiDislay key={d.id} hagakiInfo={d} isPrintMode={true} />
+          ))}
+        </div>
+      </div>
     </>
   );
 };
