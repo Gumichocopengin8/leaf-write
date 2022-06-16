@@ -1,17 +1,22 @@
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import type { NextPage } from 'next';
 import Link from 'next/link';
-import { Typography, Button } from '@mui/material';
+import { Typography, Button, Pagination, Stack } from '@mui/material';
 import EnergySavingsLeafIcon from '@mui/icons-material/EnergySavingsLeaf';
 import { css } from '@emotion/react';
 import HagakiDislay from 'components/hagaki';
-import HagakiWithPrint from 'components/hagakiWithPrint';
 import { usePrint } from 'hooks/usePrint';
 import { AppContext } from 'state/context';
 
 const Home: NextPage = () => {
   const { hagakiStore } = useContext(AppContext);
-  const { componentRef, onPrint } = usePrint();
+  const [page, setPage] = useState<number>(1);
+  const { componentRef: componentBatchPrintRef, onPrint: onBatchPrint } = usePrint();
+  const { componentRef: componentSinglePrintRef, onPrint: onSinglePrint } = usePrint();
+
+  const onPageChange = (event: React.ChangeEvent<unknown>, value: number) => {
+    setPage(value);
+  };
 
   if (hagakiStore.hagakiData.length === 0) {
     return (
@@ -33,22 +38,70 @@ const Home: NextPage = () => {
 
   return (
     <>
-      <button onClick={onPrint}>一括印刷</button>
-      <div ref={componentRef}>
-        {hagakiStore.hagakiData.map((d) => (
-          <HagakiWithPrint key={d.id} hagakiInfo={d} />
-        ))}
-      </div>
-      <div style={{ display: 'none' }}>
-        <div ref={componentRef}>
-          {hagakiStore.hagakiData.map((d) => (
-            <HagakiDislay key={d.id} hagakiInfo={d} isPrintMode={true} />
-          ))}
+      <header css={Topbar}>
+        <Stack spacing={2}>
+          <Pagination
+            count={hagakiStore.hagakiData.length}
+            page={page}
+            onChange={onPageChange}
+            color="primary"
+            variant="outlined"
+            shape="rounded"
+            showFirstButton
+            showLastButton
+          />
+        </Stack>
+        <div css={ButtonGroup}>
+          <Button onClick={onSinglePrint} variant="outlined">
+            印刷
+          </Button>
+          <Button onClick={onBatchPrint} variant="contained">
+            一括印刷
+          </Button>
+        </div>
+      </header>
+      <div css={Container}>
+        <div css={HagakiDislayContainer}>
+          <HagakiDislay
+            hagakiInfo={hagakiStore.hagakiData[page - 1]}
+            isPrintMode={false}
+            componentRef={componentSinglePrintRef}
+          />
+        </div>
+        <div style={{ display: 'none' }}>
+          <div ref={componentBatchPrintRef}>
+            {hagakiStore.hagakiData.map((d) => (
+              <HagakiDislay key={d.id} hagakiInfo={d} isPrintMode={true} />
+            ))}
+          </div>
         </div>
       </div>
     </>
   );
 };
+
+const Topbar = css`
+  position: sticky;
+  height: 2rem;
+  padding: 1rem;
+  top: 0;
+  display: flex;
+  justify-content: space-between;
+  background-color: white;
+  z-index: 10;
+  box-shadow: 0 8px 0.5rem rgba(0, 0, 0, 0.1);
+`;
+
+const HagakiDislayContainer = css`
+  transform: scale(calc(0.8));
+`;
+
+const ButtonGroup = css`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
+`;
 
 const Container = css`
   min-height: 100vh;
