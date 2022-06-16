@@ -1,8 +1,11 @@
+import { useContext } from 'react';
 import { Button, TextField, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import { v4 as uuidv4 } from 'uuid';
 import { css } from '@emotion/react';
 import { AddressRow } from 'interfaces/addressBook';
+import { AppContext } from 'state/context';
+import { convertToHagakiData } from 'utils/converter';
 import TextFieldPersonIcon from 'components/common/textFieldPersonIcon';
 import TextFieldHomeIcon from 'components/common/textFieldHomeIcon';
 
@@ -23,11 +26,12 @@ type NewAddressType = {
 
 interface Props {
   open: boolean;
-  addNewRow: (data: AddressRow) => void;
   onCloseDialog: () => void;
 }
 
-const NewAddressDialog = ({ open, addNewRow, onCloseDialog }: Props) => {
+const NewAddressDialog = ({ open, onCloseDialog }: Props) => {
+  const { hagakiDataDispatch, snackbarDispatch } = useContext(AppContext);
+
   const {
     register,
     handleSubmit,
@@ -50,7 +54,8 @@ const NewAddressDialog = ({ open, addNewRow, onCloseDialog }: Props) => {
       suffix3: data.suffix3,
       suffix4: data.suffix4,
     };
-    addNewRow(newRow);
+    hagakiDataDispatch({ type: 'append', newState: [convertToHagakiData(newRow)] });
+    snackbarDispatch({ type: 'open', message: '新しい住所の追加成功', severity: 'success' });
     onCloseDialog();
   };
 

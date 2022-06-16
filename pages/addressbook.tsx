@@ -57,8 +57,8 @@ const AddressBook = () => {
       hideable: false,
       editable: true,
     },
-    { field: 'address1', description: '住所１', width: 240, hideable: false, editable: true },
-    { field: 'address2', description: '住所２', width: 240, hideable: false, editable: true },
+    { field: 'address1', description: '住所１', width: 300, hideable: false, editable: true },
+    { field: 'address2', description: '住所２', width: 300, hideable: false, editable: true },
     { field: 'last_name', description: '名字', width: 100, hideable: false, editable: true },
     { field: 'first_name1', description: '名前１', width: 120, hideable: false, editable: true },
     { field: 'suffix1', description: '敬称１', width: 80, hideable: false, editable: true },
@@ -69,10 +69,6 @@ const AddressBook = () => {
     { field: 'first_name4', description: '名前４', width: 120, hideable: false, editable: true },
     { field: 'suffix4', description: '敬称４', width: 80, hideable: false, editable: true },
   ];
-
-  const addNewAddress = (newRow: AddressRow) => {
-    setRowMap(new Map(rowMap.set(newRow.id, newRow)));
-  };
 
   const CustomToolbar = () => {
     return (
@@ -136,7 +132,7 @@ const AddressBook = () => {
         }}
         onCellEditCommit={onCellEditCommit}
       />
-      <NewAddressDialog open={openDialog} addNewRow={addNewAddress} onCloseDialog={onCloseDialog} />
+      <NewAddressDialog open={openDialog} onCloseDialog={onCloseDialog} />
     </div>
   );
 };
