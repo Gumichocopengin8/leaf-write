@@ -76,14 +76,14 @@ const PostalCode = css`
 
 const PostalCodeLeft = css`
   ${PostalCode};
-  letter-spacing: 3.5vh;
+  letter-spacing: 3.25vh;
   right: 32%;
 `;
 
 const PostalCodeRight = css`
   ${PostalCode};
-  letter-spacing: 3vh;
-  right: 5%;
+  letter-spacing: 2.75vh;
+  right: 6%;
 `;
 
 const Address = css`
@@ -163,19 +163,19 @@ const FromFirstName = css`
 
 const FromPostalCode = css`
   position: absolute;
-  bottom: 14%;
+  bottom: 13.5%;
   font-size: 2.5vh;
   letter-spacing: 1.5vh;
 `;
 
 const FromPostalCodeLeft = css`
   ${FromPostalCode};
-  left: 7%;
+  left: 6.5%;
 `;
 
 const FromPostalCodeRight = css`
   ${FromPostalCode};
-  left: 20%;
+  left: 19.5%;
 `;
 
 export default HagakiDislay;
