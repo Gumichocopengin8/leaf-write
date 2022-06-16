@@ -7,7 +7,6 @@ import {
   GridToolbarExportContainer,
   GridCsvExportMenuItem,
   GridCellEditCommitParams,
-  GridPreProcessEditCellProps,
 } from '@mui/x-data-grid';
 import FileUploadOutlinedIcon from '@mui/icons-material/FileUploadOutlined';
 import { AppContext } from 'state/context';
@@ -15,6 +14,7 @@ import { AddressRow } from 'interfaces/addressBook';
 import NewAddressDialog from 'components/newAddressDialog';
 import CSVReader from 'components/common/CSVReader';
 import { HagakiData } from 'interfaces/hagaki';
+import { convertToHagakiData } from 'utils/converter';
 
 const AddressBook = () => {
   const { hagakiStore, hagakiDataDispatch, stackbarDispatch } = useContext(AppContext);
@@ -56,11 +56,6 @@ const AddressBook = () => {
       width: 100,
       hideable: false,
       editable: true,
-      preProcessEditCellProps(params: GridPreProcessEditCellProps) {
-        const isValidated = /^\d{3}-\d{4}$/.test(String(params.props.value));
-        stackbarDispatch({ type: 'open', message: '郵便番号がフォーマットが正しくありません', severity: 'error' });
-        return { ...params.props, error: !isValidated };
-      },
     },
     { field: 'address1', description: '住所１', width: 240, hideable: false, editable: true },
     { field: 'address2', description: '住所２', width: 240, hideable: false, editable: true },
@@ -109,23 +104,22 @@ const AddressBook = () => {
     const newValue = params.value;
     const row = rowMap.get(id);
     if (row && editedField in row) {
+      if (editedField === 'postal_code') {
+        const isValidated = /^\d{3}-\d{4}$/.test(String(newValue));
+        if (!isValidated) {
+          stackbarDispatch({ type: 'open', message: '郵便番号がフォーマットが正しくありません', severity: 'error' });
+          return;
+        }
+      }
+
       row[editedField as keyof AddressRow] = newValue;
-      const postalCode = row.postal_code.split('-');
-      const newHagakiData: HagakiData = {
-        id: row.id,
-        postalcode_left: postalCode[0],
-        postalcode_right: postalCode[1],
-        address1: row.address1,
-        address2: row.address2,
-        lastName: row.last_name,
-        firstNameSuffixList: [
-          { firstName: row.first_name1, suffix: row.suffix1 },
-          { firstName: row.first_name2, suffix: row.suffix2 },
-          { firstName: row.first_name3, suffix: row.suffix3 },
-          { firstName: row.first_name4, suffix: row.suffix4 },
-        ],
-      };
-      hagakiDataDispatch({ type: 'update_by_id', data: newHagakiData });
+      try {
+        const newHagakiData: HagakiData = convertToHagakiData(row);
+        hagakiDataDispatch({ type: 'update_by_id', data: newHagakiData });
+      } catch (e) {
+        console.error(e);
+        stackbarDispatch({ type: 'open', message: '郵便番号がフォーマットが正しくありません', severity: 'error' });
+      }
     }
   };
 
@@ -137,7 +131,6 @@ const AddressBook = () => {
         rowsPerPageOptions={[10, 20, 25, 50, 100]}
         checkboxSelection
         disableSelectionOnClick
-        // experimentalFeatures={{ newEditingApi: true }}
         components={{
           Toolbar: CustomToolbar,
         }}
