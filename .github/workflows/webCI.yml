@@ -34,8 +34,10 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-node-
       - if: ${{ steps.node_modules_cache_id.outputs.cache-hit != 'true' }}
-        run: npm install
-      - name: npm lint
+        run: echo 'not cached'
+      - name: |
+          npm install
+          npm lint
         run: npm run lint
 
   build:
@@ -65,6 +67,8 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-node-
       - if: ${{ steps.node_modules_cache_id.outputs.cache-hit != 'true' }}
-        run: npm install
-      - name: npm build
+        run: echo 'not cached'
+      - name: |
+          npm install
+          npm build
         run: npm run build
