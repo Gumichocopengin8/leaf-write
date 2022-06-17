@@ -35,10 +35,10 @@ jobs:
             ${{ runner.os }}-node-
       - if: ${{ steps.node_modules_cache_id.outputs.cache-hit != 'true' }}
         run: echo 'not cached'
+      - name: npm install
+        run: npm install
       - name: npm run lint
-        run: |
-          npm install
-          npm run lint
+        run: npm run lint
 
   build:
     runs-on: ${{ matrix.os }}
@@ -68,7 +68,7 @@ jobs:
             ${{ runner.os }}-node-
       - if: ${{ steps.node_modules_cache_id.outputs.cache-hit != 'true' }}
         run: echo 'not cached'
+      - name: npm install
+        run: npm install
       - name: npm run build
-        run: |
-          npm install
-          npm run build
+        run: npm run build
