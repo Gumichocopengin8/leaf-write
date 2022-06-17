@@ -39,6 +39,9 @@ const Home: NextPage = () => {
   return (
     <>
       <header css={Topbar}>
+        <Typography variant="h6" component="div">
+          プレビュー
+        </Typography>
         <Stack spacing={2}>
           <Pagination
             count={hagakiStore.hagakiData.length}
@@ -100,7 +103,7 @@ const ButtonGroup = css`
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 2rem;
+  gap: 1rem;
 `;
 
 const Container = css`

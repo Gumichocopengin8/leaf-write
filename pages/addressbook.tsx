@@ -124,7 +124,13 @@ const AddressBook = () => {
       <DataGrid
         rows={Array.from(rowMap.values())}
         columns={columns}
+        initialState={{
+          pagination: {
+            pageSize: 10,
+          },
+        }}
         rowsPerPageOptions={[10, 20, 25, 50, 100]}
+        pagination
         // checkboxSelection
         disableSelectionOnClick
         components={{

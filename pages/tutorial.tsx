@@ -24,7 +24,11 @@ const Tutorial = () => {
         <Typography variant="body1" paragraph>
           プライバシー保護のため、入力される住所データ等は一切データベース等に保存しません。
           そのため、画面をリロードするとデータが飛ぶのでお気をつけください。
-          また、ソースコードが気になる方やバグレポート、プルリクエスト、フィードバック等はこちらからアクセスできます。
+          また、ソースコードが気になる方やバグレポート、プルリクエスト、フィードバック等は
+          <Link href="https://github.com/Gumichocopengin8/leaf-write" target="_blank" rel="noreferrer">
+            こちら
+          </Link>
+          からアクセスできます。
           リーフライトのご利用は利用者が責任の上ご利用ください。管理主は一切の責任を負いかねます。
         </Typography>
       </article>
@@ -137,6 +141,16 @@ const Tutorial = () => {
           <Typography variant="body1" paragraph>
             プレビューに問題がなければ印刷ボタンを押して印刷してください。
             印刷画面のプレビューにはハガキの絵柄がなくなりますが問題ありません。
+            一括印刷の場合、最初と最後のページが空白になる場合がありますが、問題なく印刷できます。
+          </Typography>
+        </article>
+        <article>
+          <Typography variant="h6" component="h3" gutterBottom>
+            エクスポート
+          </Typography>
+          <Typography variant="body1" paragraph>
+            作業後は <mark css={HighLight}>My Infoページ</mark>
+            からCSVファイルをエクスポートしておくと将来的に再度データを利用することができます。
           </Typography>
         </article>
       </article>
