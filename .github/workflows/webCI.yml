@@ -24,7 +24,7 @@ jobs:
       - name: npm install, lint, test
         run: |
           npm install
-          npm run lint-app
+          npm run lint
         env:
           CI: true
 
@@ -45,6 +45,6 @@ jobs:
       - name: npm build
         run: |
           npm install
-          npm build
+          npm run build
         env:
           CI: true
