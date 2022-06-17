@@ -1,0 +1,74 @@
+name: Web CI
+
+on:
+  push:
+    paths:
+      - ./**
+      - .github/workflows/webCI.yml
+
+jobs:
+  lint-check:
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+        node-version: [18.x]
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+      - name: Get node_modules cache directory
+        id: node_modules_cache_id-dir
+        run: |
+          echo "::set-output name=dir::$(npm config get cache)"
+      - uses: actions/cache@v3
+        id: node_modules_cache_id
+        with:
+          path: ${{ steps.node_modules_cache_id-dir.outputs.dir }}
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+      - if: ${{ steps.node_modules_cache_id.outputs.cache-hit != 'true' }}
+        run: echo 'not cached'
+      - name: npm run lint
+        run: |
+          npm install
+          npm run lint
+
+  build:
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+        node-version: [18.x]
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+      - name: Get node_modules cache directory
+        id: node_modules_cache_id-dir
+        run: |
+          echo "::set-output name=dir::$(npm config get cache)"
+      - uses: actions/cache@v3
+        id: node_modules_cache_id
+        with:
+          path: ${{ steps.node_modules_cache_id-dir.outputs.dir }}
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+      - if: ${{ steps.node_modules_cache_id.outputs.cache-hit != 'true' }}
+        run: echo 'not cached'
+      - name: npm run build
+        run: |
+          npm install
+          npm run build
