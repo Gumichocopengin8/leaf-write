@@ -1,10 +1,6 @@
 name: Web CI
 
-on:
-  push:
-    paths:
-      - /**
-      - .github/workflows/webCI.yml
+on: [push, fork]
 
 jobs:
   lint-check:
