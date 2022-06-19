@@ -12,7 +12,7 @@ const Home: NextPage = () => {
   const { hagakiStore } = useContext(AppContext);
   const [page, setPage] = useState<number>(1);
   const [componentBatchPrintRef, onBatchPrint] = usePrint();
-  const [componentSinglePrintRef, onSinglePrint] = usePrint();
+  const [componentSinglePrintRef, onSinglePrint, isPrintModeForSingle] = usePrint();
 
   const onPageChange = (event: React.ChangeEvent<unknown>, value: number) => {
     setPage(value);
@@ -63,13 +63,9 @@ const Home: NextPage = () => {
           </Button>
         </div>
       </header>
-      <div css={Container}>
-        <div css={HagakiDislayContainer}>
-          <HagakiDislay
-            hagakiInfo={hagakiStore.hagakiData[page - 1]}
-            isPrintMode={false}
-            componentRef={componentSinglePrintRef}
-          />
+      <div css={[Container, HagakiDislayContainer]}>
+        <div ref={componentSinglePrintRef}>
+          <HagakiDislay hagakiInfo={hagakiStore.hagakiData[page - 1]} isPrintMode={isPrintModeForSingle} />
         </div>
         <div style={{ display: 'none' }}>
           <div ref={componentBatchPrintRef}>

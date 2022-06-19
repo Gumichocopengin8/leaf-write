@@ -1,10 +1,17 @@
-import { useRef, RefObject } from 'react';
+import { useRef, useState, RefObject } from 'react';
 import { useReactToPrint } from 'react-to-print';
 
-export const usePrint = (): [RefObject<HTMLDivElement>, () => void] => {
+export const usePrint = (): [RefObject<HTMLDivElement>, () => void, boolean] => {
   const componentRef = useRef<HTMLDivElement>(null);
+  const [isPrintMode, setIsPrintMode] = useState<boolean>(false);
   const onPrint = useReactToPrint({
     content: () => componentRef.current,
+    onBeforeGetContent: () => {
+      setIsPrintMode(true);
+      // wait till the page is changed https://github.com/gregnb/react-to-print/issues/169
+      return Promise.resolve();
+    },
+    onAfterPrint: () => setIsPrintMode(false),
   });
-  return [componentRef, onPrint];
+  return [componentRef, onPrint, isPrintMode];
 };
