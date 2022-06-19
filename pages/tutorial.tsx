@@ -149,7 +149,7 @@ const Tutorial = () => {
             エクスポート
           </Typography>
           <Typography variant="body1" paragraph>
-            作業後は <mark css={HighLight}>My Infoページ</mark>
+            作業後は <mark css={HighLight}>Address Bookページ</mark>
             からCSVファイルをエクスポートしておくと将来的に再度データを利用することができます。
           </Typography>
         </article>

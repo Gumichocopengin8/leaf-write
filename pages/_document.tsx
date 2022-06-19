@@ -4,7 +4,10 @@ const Document = () => {
   return (
     <Html lang="jp">
       <Head>
-        <style>{`body {
+        <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+JP&display=swap');
+
+        body {
             all: unset;
             overflow-y: hidden;
             font-family: 'Noto Serif JP', serif, Arial, Helvetica, sans-serif;
