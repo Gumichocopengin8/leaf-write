@@ -5,16 +5,14 @@ const Document = () => {
     <Html lang="jp">
       <Head>
         <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+JP&display=swap');
-
-        body {
+          body {
             all: unset;
             overflow-y: hidden;
-            font-family: 'Noto Serif JP', serif, Arial, Helvetica, sans-serif;
           }
           input {
             outline: 0;
-          }`}</style>
+          }
+          `}</style>
       </Head>
       <body>
         <Main />

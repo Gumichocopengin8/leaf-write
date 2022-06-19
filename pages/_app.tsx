@@ -5,6 +5,7 @@ import { css } from '@emotion/react';
 import { AppProvider } from 'state/context';
 import NavBar from 'components/common/navbar';
 import MainLayout from 'components/layout/mainLayout';
+import 'style/global.css';
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (

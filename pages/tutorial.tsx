@@ -123,6 +123,7 @@ const Tutorial = () => {
           </Typography>
           <Typography variant="body1" paragraph>
             <mark css={HighLight}>My Infoページ</mark>にアクセスし、住所を入力してください。
+            差出人データは宛名住所と同様データベース等には保存されず、ローカルメモリ上に保持されるのでリロードしたらデータが飛びます。
           </Typography>
         </article>
         <article>
@@ -142,6 +143,7 @@ const Tutorial = () => {
             プレビューに問題がなければ印刷ボタンを押して印刷してください。
             印刷画面のプレビューにはハガキの絵柄がなくなりますが問題ありません。
             一括印刷の場合、最初と最後のページが空白になる場合がありますが、問題なく印刷できます。
+            印刷の際はマージン（余白）やヘッダーはつけないようにしてください。
           </Typography>
         </article>
         <article>
