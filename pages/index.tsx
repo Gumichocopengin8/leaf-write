@@ -11,8 +11,8 @@ import { AppContext } from 'state/context';
 const Home: NextPage = () => {
   const { hagakiStore } = useContext(AppContext);
   const [page, setPage] = useState<number>(1);
-  const { componentRef: componentBatchPrintRef, onPrint: onBatchPrint } = usePrint();
-  const { componentRef: componentSinglePrintRef, onPrint: onSinglePrint } = usePrint();
+  const [componentBatchPrintRef, onBatchPrint] = usePrint();
+  const [componentSinglePrintRef, onSinglePrint] = usePrint();
 
   const onPageChange = (event: React.ChangeEvent<unknown>, value: number) => {
     setPage(value);
