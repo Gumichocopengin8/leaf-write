@@ -1,10 +1,10 @@
-@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+JP&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Shippori+Mincho+B1:wght@400;500;600;700;800&display=swap');
 
 html,
 body {
   all: unset;
   overflow-y: hidden;
-  font-family: 'Noto Serif JP', serif, Arial, Helvetica, sans-serif;
+  font-family: 'Shippori Mincho B1', serif, Arial, Helvetica, sans-serif;
 }
 
 input {

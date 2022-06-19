@@ -70,20 +70,21 @@ const NengajoImage = styled.img<{ isPrintMode: boolean }>`
 
 const PostalCode = css`
   position: absolute;
-  top: 9.5%;
+  top: 8.5%;
   font-size: 3.5vh;
+  font-weight: 600;
 `;
 
 const PostalCodeLeft = css`
   ${PostalCode};
-  letter-spacing: 3.25vh;
-  right: 32%;
+  letter-spacing: 2.75vh;
+  right: 33%;
 `;
 
 const PostalCodeRight = css`
   ${PostalCode};
-  letter-spacing: 2.75vh;
-  right: 6%;
+  letter-spacing: 2.5vh;
+  right: 5.5%;
 `;
 
 const Address = css`
@@ -91,7 +92,7 @@ const Address = css`
   top: 16%;
   height: 64vh;
   font-size: 3.25vh;
-  font-weight: bold;
+  font-weight: 600;
   writing-mode: vertical-rl;
 `;
 
@@ -116,7 +117,7 @@ const Name = styled.div<{ size: number }>`
   justify-content: space-around;
   writing-mode: vertical-rl;
   font-size: calc(8vh - ${(props) => props.size} * 0.75vh);
-  font-weight: bolder;
+  font-weight: 700;
 `;
 
 const Suffix = css`
@@ -130,7 +131,7 @@ const FromAddressBase = css`
   position: absolute;
   bottom: 20%;
   font-size: 2.5vh;
-  font-weight: bold;
+  font-weight: 600;
   writing-mode: vertical-rl;
 `;
 
@@ -152,7 +153,7 @@ const FromName = css`
   gap: 1em;
   font-size: 4.25vh;
   writing-mode: vertical-rl;
-  font-weight: bold;
+  font-weight: 600;
 `;
 
 const FromFirstName = css`
@@ -163,9 +164,10 @@ const FromFirstName = css`
 
 const FromPostalCode = css`
   position: absolute;
-  bottom: 13.5%;
-  font-size: 2.5vh;
-  letter-spacing: 1.5vh;
+  bottom: 13%;
+  font-size: 2.75vh;
+  font-weight: 600;
+  letter-spacing: 1vh;
 `;
 
 const FromPostalCodeLeft = css`
@@ -175,7 +177,7 @@ const FromPostalCodeLeft = css`
 
 const FromPostalCodeRight = css`
   ${FromPostalCode};
-  left: 19.5%;
+  left: 19.25%;
 `;
 
 export default HagakiDislay;
