@@ -10,7 +10,7 @@ interface Props {
 }
 
 const HagakiDislay = ({ hagakiInfo, isPrintMode }: Props) => {
-  const { myInfoStore } = useContext(AppContext);
+  const { hagakiStore } = useContext(AppContext);
 
   const numberOfFirstNames = () => hagakiInfo.firstNameSuffixList.filter((d) => d.firstName).length;
 
@@ -19,8 +19,8 @@ const HagakiDislay = ({ hagakiInfo, isPrintMode }: Props) => {
       <WorkSpace isPrintMode={isPrintMode}>
         <NengajoImage isPrintMode={isPrintMode} src="/nengajo.png" loading="lazy" alt="nengajo" />
         <div>
-          <div css={PostalCodeLeft}>{hagakiInfo.postalcode_left}</div>
-          <div css={PostalCodeRight}>{hagakiInfo.postalcode_right}</div>
+          <PostalCodeLeft isPrintMode={isPrintMode}>{hagakiInfo.postalcode_left}</PostalCodeLeft>
+          <PostalCodeRight isPrintMode={isPrintMode}>{hagakiInfo.postalcode_right}</PostalCodeRight>
           <div css={Address1}>{hagakiInfo.address1}</div>
           <div css={Address2}>{hagakiInfo.address2}</div>
           <Name size={numberOfFirstNames()}>
@@ -36,17 +36,21 @@ const HagakiDislay = ({ hagakiInfo, isPrintMode }: Props) => {
           </Name>
         </div>
         <div>
-          <div css={FromAddress1}>{myInfoStore.myInfoData.address1}</div>
-          <div css={FromAddress2}>{myInfoStore.myInfoData.address2}</div>
+          <div css={FromAddress1}>{hagakiStore.hagakiData?.[0]?.address1}</div>
+          <div css={FromAddress2}>{hagakiStore.hagakiData?.[0]?.address2}</div>
           <div css={FromName}>
-            <div>{myInfoStore.myInfoData.lastName}</div>
+            <div>{hagakiStore.hagakiData?.[0]?.lastName}</div>
             <div css={FromFirstName}>
-              <div>{myInfoStore.myInfoData.firstName1}</div>
-              <div>{myInfoStore.myInfoData.firstName2}</div>
+              <div>{hagakiStore.hagakiData?.[0]?.firstNameSuffixList?.[0]?.firstName}</div>
+              <div>{hagakiStore.hagakiData?.[0]?.firstNameSuffixList?.[1]?.firstName}</div>
             </div>
           </div>
-          <div css={FromPostalCodeLeft}>{myInfoStore.myInfoData.postalcode_left}</div>
-          <div css={FromPostalCodeRight}>{myInfoStore.myInfoData.postalcode_right}</div>
+          <FromPostalCodeLeft isPrintMode={isPrintMode}>
+            {hagakiStore.hagakiData?.[0]?.postalcode_left}
+          </FromPostalCodeLeft>
+          <FromPostalCodeRight isPrintMode={isPrintMode}>
+            {hagakiStore.hagakiData?.[0]?.postalcode_right}
+          </FromPostalCodeRight>
         </div>
       </WorkSpace>
     </>
@@ -72,16 +76,16 @@ const PostalCode = css`
   font-weight: 600;
 `;
 
-const PostalCodeLeft = css`
+const PostalCodeLeft = styled.div<{ isPrintMode: boolean }>`
   ${PostalCode};
-  letter-spacing: 2.75vh;
-  right: 33%;
+  letter-spacing: ${(props) => (props.isPrintMode ? '2.75vh' : '2.75vh')};
+  right: ${(props) => (props.isPrintMode ? '33%' : '33%')};
 `;
 
-const PostalCodeRight = css`
+const PostalCodeRight = styled.div<{ isPrintMode: boolean }>`
   ${PostalCode};
-  letter-spacing: 2.5vh;
-  right: 5.5%;
+  letter-spacing: ${(props) => (props.isPrintMode ? '2.5vh' : '2.5vh')};
+  right: ${(props) => (props.isPrintMode ? '5.5%' : '5.5%')};
 `;
 
 const Address = css`
@@ -167,14 +171,16 @@ const FromPostalCode = css`
   letter-spacing: 1vh;
 `;
 
-const FromPostalCodeLeft = css`
+const FromPostalCodeLeft = styled.div<{ isPrintMode: boolean }>`
   ${FromPostalCode};
-  left: 6.5%;
+  left: ${(props) => (props.isPrintMode ? '6.75%' : '6.5%')};
+  bottom: ${(props) => (props.isPrintMode ? '15%' : '13%')};
 `;
 
-const FromPostalCodeRight = css`
+const FromPostalCodeRight = styled.div<{ isPrintMode: boolean }>`
   ${FromPostalCode};
-  left: 19.25%;
+  left: ${(props) => (props.isPrintMode ? '19.5%' : '19.25%')};
+  bottom: ${(props) => (props.isPrintMode ? '15%' : '13%')};
 `;
 
 export default HagakiDislay;

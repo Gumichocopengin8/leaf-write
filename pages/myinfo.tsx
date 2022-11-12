@@ -1,11 +1,12 @@
 import { useContext } from 'react';
+import { v4 as uuidv4 } from 'uuid';
 import { TextField, Button, FormControl, Typography } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import { css } from '@emotion/react';
-import { MyInfoData } from 'interfaces/myInfo';
 import { AppContext } from 'state/context';
 import TextFieldPersonIcon from 'components/common/textFieldPersonIcon';
 import TextFieldHomeIcon from 'components/common/textFieldHomeIcon';
+import type { HagakiData } from 'interfaces/hagaki';
 
 type MyInfoType = {
   postalCode: string;
@@ -17,33 +18,29 @@ type MyInfoType = {
 };
 
 const MyInfo = () => {
-  const { myInfoStore, myInfoataDispatch, snackbarDispatch } = useContext(AppContext);
+  const { hagakiDataDispatch, snackbarDispatch, hagakiStore } = useContext(AppContext);
 
   const {
-    reset,
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<MyInfoType>();
 
-  const onCancel = () => {
-    myInfoataDispatch({ type: 'clear' });
-    snackbarDispatch({ type: 'open', message: '無事クリア', severity: 'success' });
-    reset();
-  };
-
   const onSubmit = (data: MyInfoType) => {
     const postalCode = data.postalCode.split('-');
-    const myInfoData: MyInfoData = {
+    const myInfoData: HagakiData = {
+      id: hagakiStore.hagakiData?.[0]?.id ?? uuidv4(),
       postalcode_left: postalCode[0],
       postalcode_right: postalCode[1],
       address1: data.address1,
       address2: data.address2,
       lastName: data.lastName,
-      firstName1: data.firstName1,
-      firstName2: data.firstName2,
+      firstNameSuffixList: [
+        { firstName: data.firstName1, suffix: '' },
+        { firstName: data.firstName2, suffix: '' },
+      ],
     };
-    myInfoataDispatch({ type: 'update', newState: myInfoData });
+    hagakiDataDispatch({ type: 'update_by_id', data: myInfoData });
     snackbarDispatch({ type: 'open', message: '保存成功', severity: 'success' });
   };
 
@@ -59,8 +56,11 @@ const MyInfo = () => {
             variant="standard"
             placeholder="123-4567"
             defaultValue={
-              myInfoStore.myInfoData.postalcode_left
-                ? `${myInfoStore.myInfoData.postalcode_left}-${myInfoStore.myInfoData.postalcode_right}`
+              (hagakiStore.hagakiData?.[0]?.postalcode_left ?? '') &&
+              (hagakiStore.hagakiData?.[0]?.postalcode_right ?? '')
+                ? `${hagakiStore.hagakiData?.[0].postalcode_left ?? ''}-${
+                    hagakiStore.hagakiData?.[0].postalcode_right ?? 0
+                  }`
                 : ''
             }
             error={!!errors.postalCode}
@@ -73,7 +73,7 @@ const MyInfo = () => {
             variant="standard"
             placeholder="東京都新宿区"
             fullWidth
-            defaultValue={myInfoStore.myInfoData.address1}
+            defaultValue={hagakiStore.hagakiData?.[0]?.address1 ?? ''}
             error={!!errors.address1}
             InputProps={{ startAdornment: <TextFieldHomeIcon /> }}
           />
@@ -84,7 +84,7 @@ const MyInfo = () => {
             variant="standard"
             placeholder="おうちアパートメント１号室"
             fullWidth
-            defaultValue={myInfoStore.myInfoData.address2}
+            defaultValue={hagakiStore.hagakiData?.[0]?.address2 ?? ''}
             error={!!errors.address2}
             InputProps={{ startAdornment: <TextFieldHomeIcon /> }}
           />
@@ -95,7 +95,7 @@ const MyInfo = () => {
               label="名字"
               variant="standard"
               placeholder="神風"
-              defaultValue={myInfoStore.myInfoData.lastName}
+              defaultValue={hagakiStore.hagakiData?.[0]?.lastName}
               error={!!errors.lastName}
               InputProps={{ startAdornment: <TextFieldPersonIcon /> }}
             />
@@ -106,7 +106,7 @@ const MyInfo = () => {
                 label="名前1"
                 variant="standard"
                 placeholder="太郎"
-                defaultValue={myInfoStore.myInfoData.firstName1}
+                defaultValue={hagakiStore.hagakiData?.[0]?.firstNameSuffixList?.[0]?.firstName ?? ''}
                 error={!!errors.firstName1}
                 InputProps={{ startAdornment: <TextFieldPersonIcon /> }}
               />
@@ -116,16 +116,13 @@ const MyInfo = () => {
                 label="名前2"
                 variant="standard"
                 placeholder="もも子"
-                defaultValue={myInfoStore.myInfoData.firstName2}
+                defaultValue={hagakiStore.hagakiData?.[0]?.firstNameSuffixList?.[1]?.firstName ?? ''}
                 error={!!errors.firstName2}
                 InputProps={{ startAdornment: <TextFieldPersonIcon /> }}
               />
             </div>
           </div>
           <div css={ButtonGroup}>
-            <Button fullWidth onClick={onCancel} variant="outlined">
-              Clear
-            </Button>
             <Button fullWidth type="submit" variant="contained">
               Save
             </Button>
