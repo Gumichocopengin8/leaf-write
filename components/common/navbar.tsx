@@ -51,8 +51,8 @@ const NavBar = () => {
 
   return (
     <div css={NavContainer}>
-      <Link href="/">
-        <Typography style={{ cursor: 'pointer' }} variant="h6" gutterBottom component="div">
+      <Link href="/" css={MainTitle}>
+        <Typography variant="h6" gutterBottom component="div">
           リーフライト
           <EnergySavingsLeafIcon color="success" />
         </Typography>
@@ -74,6 +74,13 @@ const NavContainer = css({
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
+});
+
+const MainTitle = css({
+  cursor: 'pointer',
+  color: 'inherit',
+  textDecoration: 'none',
+  whiteSpace: 'nowrap',
 });
 
 export default NavBar;
