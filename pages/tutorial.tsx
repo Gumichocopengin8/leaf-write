@@ -14,7 +14,7 @@ const Tutorial = () => {
         </Typography>
         <Divider />
         <Typography variant="body1" paragraph>
-          年賀状の住所欄は普通はがきとレイアウトが違うので毎年年賀状の住所作成に苦労する人は少なくないかもしれません。また、市販のソフトウェアを
+          毎年、年賀状の住所欄は普通はがきとレイアウトが違うので年賀状の住所作成に苦労する人は少なくないかもしれません。また、市販のソフトウェアを
           無料・有料かかわらずインストールをすることに抵抗がある人もいるでしょう。
           リーフライトは毎年たった一度しかない年賀状の住所作成のために新しくソフトをダウンロードしたり、
           手書きをすることを殲滅するための目的として作りました。
@@ -22,7 +22,7 @@ const Tutorial = () => {
           また、半角数字を使うと数字が横を向いてしまうので、漢数字を使うと綺麗にできますがお好みです。
         </Typography>
         <Typography variant="body1" paragraph>
-          プライバシー保護のため、入力される住所データ等は一切データベース等に保存しません。
+          プライバシー保護のため、入力される住所データ等は一切データベース等に保存しません（データベース等自体をこのサイトでは使っていません）。
           そのため、画面をリロードするとデータが飛ぶのでお気をつけください。
           また、ソースコードが気になる方やバグレポート、プルリクエスト、フィードバック等は
           <Link href="https://github.com/Gumichocopengin8/leaf-write" target="_blank" rel="noreferrer">
@@ -108,6 +108,12 @@ const Tutorial = () => {
             <strong>ハイフンを忘れない</strong>
             ようにしてください。
           </Typography>
+          <Typography variant="body1" paragraph css={Warning}>
+            どちらの方法の場合も１行目のデータは差出人データとして扱われます。そのため、空テーブルの状態からデータが１つしかないCSVをインポート
+            したり、住所追加をした場合は<mark css={HighLight}>Address Book</mark>
+            のテーブルには見た目上の変化は起こらずに<mark css={HighLight}>My Info</mark>に反映されます。
+            2つ目以降のデータがテーブルには表示されます。
+          </Typography>
         </article>
         <article>
           <Typography variant="h6" component="h3" gutterBottom>
@@ -122,7 +128,9 @@ const Tutorial = () => {
             差出人データの入力
           </Typography>
           <Typography variant="body1" paragraph>
-            <mark css={HighLight}>My Infoページ</mark>にアクセスし、住所を入力してください。
+            １つ目のデータが差出人データとして扱われます。
+            <mark css={HighLight}>My Infoページ</mark>にアクセスして、住所を編集することができます。
+            編集後は必ずSAVEボタンを押してください。
             差出人データは宛名住所と同様データベース等には保存されず、ローカルメモリ上に保持されるのでリロードしたらデータが飛びます。
           </Typography>
         </article>
@@ -179,6 +187,10 @@ const HighLight = css`
 
 const Header = css`
   margin-top: 1rem; ;
+`;
+
+const Warning = css`
+  color: crimson;
 `;
 
 export default Tutorial;

@@ -22,6 +22,9 @@ export const hagakiDataReducer = (state: HagakiStore, action: HagakiDataType): H
     case 'append':
       return { hagakiData: [...state.hagakiData, ...action.newState] };
     case 'update_by_id':
+      if (state.hagakiData.length === 0) {
+        return { hagakiData: [action.data] };
+      }
       return {
         hagakiData: [...state.hagakiData.map((data) => (data.id === action.data.id ? { ...action.data } : data))],
       };

@@ -44,7 +44,7 @@ const Home: NextPage = () => {
         </Typography>
         <Stack spacing={2}>
           <Pagination
-            count={hagakiStore.hagakiData.length}
+            count={hagakiStore.hagakiData.length - 1} // skip first one cuz first one is MY address
             page={page}
             onChange={onPageChange}
             color="primary"
@@ -65,11 +65,11 @@ const Home: NextPage = () => {
       </header>
       <div css={[Container, HagakiDislayContainer]}>
         <div ref={componentSinglePrintRef}>
-          <HagakiDislay hagakiInfo={hagakiStore.hagakiData[page - 1]} isPrintMode={isPrintModeForSingle} />
+          <HagakiDislay hagakiInfo={hagakiStore.hagakiData[page]} isPrintMode={isPrintModeForSingle} />
         </div>
         <div style={{ display: 'none' }}>
           <div ref={componentBatchPrintRef}>
-            {hagakiStore.hagakiData.map((d) => (
+            {hagakiStore.hagakiData.slice(1).map((d) => (
               <HagakiDislay key={d.id} hagakiInfo={d} isPrintMode={true} />
             ))}
           </div>

@@ -27,7 +27,7 @@ const AddressBook = () => {
 
   useEffect(() => {
     const newRowMap: Map<string, AddressRow> = new Map();
-    for (const d of hagakiStore.hagakiData) {
+    for (const d of hagakiStore.hagakiData.slice(1)) {
       const addressRow = {
         id: d.id,
         postal_code: `${d.postalcode_left}-${d.postalcode_right}`,

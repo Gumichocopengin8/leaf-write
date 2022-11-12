@@ -10,7 +10,7 @@ interface Props {
 }
 
 const HagakiDislay = ({ hagakiInfo, isPrintMode }: Props) => {
-  const { myInfoStore } = useContext(AppContext);
+  const { hagakiStore } = useContext(AppContext);
 
   const numberOfFirstNames = () => hagakiInfo.firstNameSuffixList.filter((d) => d.firstName).length;
 
@@ -36,17 +36,17 @@ const HagakiDislay = ({ hagakiInfo, isPrintMode }: Props) => {
           </Name>
         </div>
         <div>
-          <div css={FromAddress1}>{myInfoStore.myInfoData.address1}</div>
-          <div css={FromAddress2}>{myInfoStore.myInfoData.address2}</div>
+          <div css={FromAddress1}>{hagakiStore.hagakiData?.[0]?.address1}</div>
+          <div css={FromAddress2}>{hagakiStore.hagakiData?.[0]?.address2}</div>
           <div css={FromName}>
-            <div>{myInfoStore.myInfoData.lastName}</div>
+            <div>{hagakiStore.hagakiData?.[0]?.lastName}</div>
             <div css={FromFirstName}>
-              <div>{myInfoStore.myInfoData.firstName1}</div>
-              <div>{myInfoStore.myInfoData.firstName2}</div>
+              <div>{hagakiStore.hagakiData?.[0]?.firstNameSuffixList?.[0]?.firstName}</div>
+              <div>{hagakiStore.hagakiData?.[0]?.firstNameSuffixList?.[1]?.firstName}</div>
             </div>
           </div>
-          <div css={FromPostalCodeLeft}>{myInfoStore.myInfoData.postalcode_left}</div>
-          <div css={FromPostalCodeRight}>{myInfoStore.myInfoData.postalcode_right}</div>
+          <div css={FromPostalCodeLeft}>{hagakiStore.hagakiData?.[0]?.postalcode_left}</div>
+          <div css={FromPostalCodeRight}>{hagakiStore.hagakiData?.[0]?.postalcode_right}</div>
         </div>
       </WorkSpace>
     </>
