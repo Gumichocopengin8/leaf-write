@@ -3,11 +3,13 @@ import { Button } from '@mui/material';
 import {
   DataGrid,
   GridToolbarContainer,
-  GridColDef,
   GridToolbarExportContainer,
   GridCsvExportMenuItem,
   GridCellEditCommitParams,
+  GridActionsCellItem,
+  GridColumns,
 } from '@mui/x-data-grid';
+import DeleteIcon from '@mui/icons-material/DeleteOutlined';
 import FileUploadOutlinedIcon from '@mui/icons-material/FileUploadOutlined';
 import { AppContext } from 'state/context';
 import { AddressRow } from 'interfaces/addressBook';
@@ -48,7 +50,7 @@ const AddressBook = () => {
     setRowMap(newRowMap);
   }, [hagakiStore.hagakiData]);
 
-  const columns: GridColDef[] = [
+  const columns: GridColumns = [
     { field: 'id', width: 90, hideable: false, disableExport: true },
     {
       field: 'postal_code',
@@ -68,6 +70,15 @@ const AddressBook = () => {
     { field: 'suffix3', description: '敬称３', width: 80, hideable: false, editable: true },
     { field: 'first_name4', description: '名前４', width: 120, hideable: false, editable: true },
     { field: 'suffix4', description: '敬称４', width: 80, hideable: false, editable: true },
+    {
+      field: 'action',
+      type: 'actions',
+      width: 80,
+      getActions: ({ id }) => {
+        const deleteItem = () => hagakiDataDispatch({ type: 'delete_by_id', id: id.toString() });
+        return [<GridActionsCellItem icon={<DeleteIcon />} key={id} label="Delete" onClick={deleteItem} />];
+      },
+    },
   ];
 
   const CustomToolbar = () => {
@@ -112,6 +123,7 @@ const AddressBook = () => {
       try {
         const newHagakiData: HagakiData = convertToHagakiData(row);
         hagakiDataDispatch({ type: 'update_by_id', data: newHagakiData });
+        snackbarDispatch({ type: 'open', message: '編集完了', severity: 'success' });
       } catch (e) {
         console.error(e);
         snackbarDispatch({ type: 'open', message: '郵便番号がフォーマットが正しくありません', severity: 'error' });

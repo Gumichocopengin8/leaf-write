@@ -65,7 +65,9 @@ const Home: NextPage = () => {
       </header>
       <div css={[Container, HagakiDislayContainer]}>
         <div ref={componentSinglePrintRef}>
-          <HagakiDislay hagakiInfo={hagakiStore.hagakiData[page]} isPrintMode={isPrintModeForSingle} />
+          {hagakiStore.hagakiData.length > 1 && (
+            <HagakiDislay hagakiInfo={hagakiStore.hagakiData[page]} isPrintMode={isPrintModeForSingle} />
+          )}
         </div>
         <div style={{ display: 'none' }}>
           <div ref={componentBatchPrintRef}>
