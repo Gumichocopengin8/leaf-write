@@ -14,6 +14,10 @@ export type HagakiDataType =
       data: Readonly<HagakiData>;
     }
   | {
+      type: 'delete_by_id';
+      id: HagakiData['id'];
+    }
+  | {
       type: 'clear';
     };
 
@@ -28,6 +32,8 @@ export const hagakiDataReducer = (state: HagakiStore, action: HagakiDataType): H
       return {
         hagakiData: [...state.hagakiData.map((data) => (data.id === action.data.id ? { ...action.data } : data))],
       };
+    case 'delete_by_id':
+      return { hagakiData: [...state.hagakiData.filter((data) => data.id !== action.id)] };
     case 'clear':
       return { ...hagakiDataInitialState };
     default:

@@ -21,6 +21,11 @@ export const useUploadCSV = () => {
             try {
               const hagakiData: HagakiData[] = convertCSVtoHagakiData(data);
               hagakiDataDispatch({ type: 'append', newState: hagakiData });
+              snackbarDispatch({
+                type: 'open',
+                message: `${hagakiData.length}件のデータを読み込みました。`,
+                severity: 'success',
+              });
             } catch (err) {
               console.error(err);
               if (err instanceof Error) {
