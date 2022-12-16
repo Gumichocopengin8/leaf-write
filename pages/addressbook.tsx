@@ -1,5 +1,5 @@
 import { useContext, useState, useEffect } from 'react';
-import { Button } from '@mui/material';
+import { Box, Button } from '@mui/material';
 import {
   DataGrid,
   GridToolbarContainer,
@@ -28,25 +28,26 @@ const AddressBook = () => {
   const onCloseDialog = () => setOpenDialog(false);
 
   useEffect(() => {
-    const newRowMap: Map<string, AddressRow> = new Map();
-    for (const d of hagakiStore.hagakiData.slice(1)) {
+    const newRowMap: Map<string, AddressRow> = new Map<string, AddressRow>();
+    hagakiStore.hagakiData.forEach((d, index) => {
       const addressRow = {
         id: d.id,
         postal_code: `${d.postalcode_left}-${d.postalcode_right}`,
         address1: d.address1,
         address2: d.address2,
         last_name: d.lastName,
-        first_name1: d.firstNameSuffixList[0].firstName,
-        first_name2: d.firstNameSuffixList[1].firstName,
-        first_name3: d.firstNameSuffixList[2].firstName,
-        first_name4: d.firstNameSuffixList[3].firstName,
-        suffix1: d.firstNameSuffixList[0].suffix,
-        suffix2: d.firstNameSuffixList[1].suffix,
-        suffix3: d.firstNameSuffixList[2].suffix,
-        suffix4: d.firstNameSuffixList[3].suffix,
+        first_name1: d.firstNameSuffixList[0]?.firstName ?? '',
+        first_name2: d.firstNameSuffixList[1]?.firstName ?? '',
+        first_name3: d.firstNameSuffixList[2]?.firstName ?? '',
+        first_name4: d.firstNameSuffixList[3]?.firstName ?? '',
+        suffix1: d.firstNameSuffixList[0]?.suffix ?? '',
+        suffix2: d.firstNameSuffixList[1]?.suffix ?? '',
+        suffix3: d.firstNameSuffixList[2]?.suffix ?? '',
+        suffix4: d.firstNameSuffixList[3]?.suffix ?? '',
+        is_my_address: index === 0, // first row is `my address`
       };
       newRowMap.set(d.id, addressRow);
-    }
+    });
     setRowMap(newRowMap);
   }, [hagakiStore.hagakiData]);
 
@@ -70,6 +71,14 @@ const AddressBook = () => {
     { field: 'suffix3', description: '敬称３', width: 80, hideable: false, editable: true },
     { field: 'first_name4', description: '名前４', width: 120, hideable: false, editable: true },
     { field: 'suffix4', description: '敬称４', width: 80, hideable: false, editable: true },
+    {
+      field: 'is_my_address',
+      type: 'boolean',
+      width: 120,
+      hide: true,
+      editable: false,
+      disableExport: true,
+    },
     {
       field: 'action',
       type: 'actions',
@@ -107,10 +116,10 @@ const AddressBook = () => {
 
   const onCellEditCommit = (params: GridCellEditCommitParams) => {
     const id = String(params.id);
-    const editedField = params.field;
-    const newValue = params.value;
+    const editedField = params.field as keyof AddressRow;
+    const newValue: AddressRow[keyof AddressRow] = params.value;
     const row = rowMap.get(id);
-    if (row && editedField in row) {
+    if (row && editedField in row && editedField !== 'is_my_address' && typeof newValue === 'string') {
       if (editedField === 'postal_code') {
         const isValidated = /^\d{3}-\d{4}$/.test(String(newValue));
         if (!isValidated) {
@@ -118,8 +127,7 @@ const AddressBook = () => {
           return;
         }
       }
-
-      row[editedField as keyof AddressRow] = newValue;
+      row[editedField] = newValue;
       try {
         const newHagakiData: HagakiData = convertToHagakiData(row);
         hagakiDataDispatch({ type: 'update_by_id', data: newHagakiData });
@@ -128,11 +136,23 @@ const AddressBook = () => {
         console.error(e);
         snackbarDispatch({ type: 'open', message: '郵便番号がフォーマットが正しくありません', severity: 'error' });
       }
+    } else {
+      snackbarDispatch({ type: 'open', message: '予期せぬエラーが起こりました', severity: 'error' });
     }
   };
 
   return (
-    <div style={{ height: '100%', width: '100%' }}>
+    <Box
+      sx={{
+        height: '100%',
+        width: '100%',
+        '.MuiDataGrid-row:first-of-type, .MuiDataGrid-row:first-of-type:hover': {
+          bgcolor: 'lightgray',
+          color: 'gray',
+          cursor: 'not-allowed',
+        },
+      }}
+    >
       <DataGrid
         rows={Array.from(rowMap.values())}
         columns={columns}
@@ -141,6 +161,7 @@ const AddressBook = () => {
             pageSize: 10,
           },
         }}
+        isCellEditable={(params) => !params.row.is_my_address}
         rowsPerPageOptions={[10, 20, 25, 50, 100]}
         pagination
         // checkboxSelection
@@ -151,7 +172,7 @@ const AddressBook = () => {
         onCellEditCommit={onCellEditCommit}
       />
       <NewAddressDialog open={openDialog} onCloseDialog={onCloseDialog} />
-    </div>
+    </Box>
   );
 };
 

@@ -13,4 +13,5 @@ export interface AddressRow {
   suffix2: string;
   suffix3: string;
   suffix4: string;
+  is_my_address: boolean;
 }
