@@ -65,6 +65,12 @@ const Home: NextPage = () => {
       </header>
       <div css={[Container, HagakiDislayContainer]}>
         <div ref={componentSinglePrintRef}>
+          {hagakiStore.hagakiData.length === 1 && (
+            <div css={Container}>
+              <Typography>差出人住所のデータしかありません。</Typography>
+              <Typography>宛名住所データも少なくとも１つは追加しましょう</Typography>
+            </div>
+          )}
           {hagakiStore.hagakiData.length > 1 && (
             <HagakiDislay hagakiInfo={hagakiStore.hagakiData[page]} isPrintMode={isPrintModeForSingle} />
           )}

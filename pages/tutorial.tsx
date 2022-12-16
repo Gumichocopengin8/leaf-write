@@ -38,7 +38,8 @@ const Tutorial = () => {
         </Typography>
         <Divider />
         <Typography variant="body1" paragraph>
-          <strong>Google Chrome最新バージョン</strong>。Safari, Firefox等では印刷時にレイアウトが崩れます。
+          <strong>Google Chrome最新バージョン</strong>。Safari,
+          Firefox等では印刷時にレイアウトが崩れる可能性があります。
         </Typography>
       </article>
       <article>
@@ -92,7 +93,11 @@ const Tutorial = () => {
             宛名データの入力
           </Typography>
           <Typography variant="body1" paragraph>
-            宛名住所データの入力方法は２つあります。１つ目は <mark css={HighLight}>Address Bookページ</mark>
+            宛名住所データの入力方法は３つあります。
+            方法１、２の場合だと、名前３、敬称３以降のデータは差出人住所には使われません。
+          </Typography>
+          <Typography variant="body1" paragraph>
+            １つ目は <mark css={HighLight}>Address Bookページ</mark>
             の画面左上にある住所追加ボタンから１つずつ入力する方法です。
           </Typography>
           <Typography variant="body1" paragraph>
@@ -108,11 +113,18 @@ const Tutorial = () => {
             <strong>ハイフンを忘れない</strong>
             ようにしてください。
           </Typography>
+          <Typography variant="body1" paragraph>
+            ３つ目は <mark css={HighLight}>My Infoページ</mark>
+            の画面から入力する方法です。
+          </Typography>
           <Typography variant="body1" paragraph css={Warning}>
-            どちらの方法の場合も１行目のデータは差出人データとして扱われます。そのため、空テーブルの状態からデータが１つしかないCSVをインポート
-            したり、住所追加をした場合は<mark css={HighLight}>Address Book</mark>
-            のテーブルには見た目上の変化は起こらずに<mark css={HighLight}>My Info</mark>に反映されます。
-            2つ目以降のデータがテーブルには表示されます。
+            方法１、２のどちらの方法の場合も１行目のデータは差出人データとして扱われます。
+            そのため、空テーブルの状態からデータが１つしかないCSVをインポート したり、住所追加をした場合は
+            <mark css={HighLight}>Address Book</mark>
+            のテーブルには１行目が見た目がグレーの状態で反映されますが編集はできません。 編集は
+            <mark css={HighLight}>My Infoページ</mark>からしてください。 ですが、
+            <mark css={HighLight}>Address Book</mark>
+            テーブルから削除は可能です。その場合は２行目のデータが差出人住所となります。
           </Typography>
         </article>
         <article>
@@ -120,7 +132,7 @@ const Tutorial = () => {
             宛名データの編集
           </Typography>
           <Typography variant="body1" paragraph>
-            テーブルセルをダブルクリックすることでデータを編集することができます。IDは編集不可です。
+            テーブルセルをダブルクリックすることでデータを編集することができます。１行目データとと全ての行のIDは編集不可です。
           </Typography>
         </article>
         <article>
@@ -149,7 +161,7 @@ const Tutorial = () => {
           </Typography>
           <Typography variant="body1" paragraph>
             プレビューに問題がなければ印刷ボタンを押して印刷してください。
-            <mark css={HighLight}>印刷画面のプレビューにはハガキの絵柄がなくなりますが問題ありません。</mark>
+            <mark css={Warning}>印刷画面のプレビューにはハガキの絵柄がなくなりますが問題ありません。</mark>
             最初と最後のページが空白になる場合がありますが、問題なく印刷できます。
             また、ページの範囲指定をして頂ければ空ページを印刷しなくてすみます。
             印刷の際はマージン（余白）やヘッダーはつけないようにしてください。
