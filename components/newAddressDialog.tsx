@@ -30,12 +30,13 @@ interface Props {
 }
 
 const NewAddressDialog = ({ open, onCloseDialog }: Props) => {
-  const { hagakiDataDispatch, snackbarDispatch } = useContext(AppContext);
+  const { hagakiDataDispatch, hagakiStore, snackbarDispatch } = useContext(AppContext);
 
   const {
     register,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm<NewAddressType>();
 
   const onSubmit = (data: NewAddressType) => {
@@ -53,8 +54,10 @@ const NewAddressDialog = ({ open, onCloseDialog }: Props) => {
       suffix2: data.suffix2,
       suffix3: data.suffix3,
       suffix4: data.suffix4,
+      is_my_address: hagakiStore.hagakiData.length === 0,
     };
     hagakiDataDispatch({ type: 'append', newState: [convertToHagakiData(newRow)] });
+    reset();
     snackbarDispatch({ type: 'open', message: '新しい住所の追加成功', severity: 'success' });
     onCloseDialog();
   };
