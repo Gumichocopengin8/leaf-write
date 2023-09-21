@@ -144,11 +144,6 @@ const AddressBook = () => {
       sx={{
         height: '100%',
         width: '100%',
-        '.MuiDataGrid-row:first-of-type, .MuiDataGrid-row:first-of-type:hover': {
-          bgcolor: 'lightgray',
-          color: 'gray',
-          cursor: 'not-allowed',
-        },
       }}
     >
       <DataGrid
@@ -171,8 +166,9 @@ const AddressBook = () => {
           }
         }}
         onProcessRowUpdateError={handleProcessRowUpdateError}
-        // checkboxSelection
+        checkboxSelection
         disableRowSelectionOnClick
+        isRowSelectable={(params: GridRowParams<AddressRow>) => !params.row.is_my_address}
         slots={{
           toolbar: CustomToolbar,
         }}
