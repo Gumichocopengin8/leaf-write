@@ -5,9 +5,10 @@ import {
   GridToolbarContainer,
   GridToolbarExportContainer,
   GridCsvExportMenuItem,
-  GridCellEditCommitParams,
   GridActionsCellItem,
-  GridColumns,
+  GridColDef,
+  GridRowParams,
+  GridCellEditStopParams,
 } from '@mui/x-data-grid';
 import DeleteIcon from '@mui/icons-material/DeleteOutlined';
 import FileUploadOutlinedIcon from '@mui/icons-material/FileUploadOutlined';
@@ -51,7 +52,7 @@ const AddressBook = () => {
     setRowMap(newRowMap);
   }, [hagakiStore.hagakiData]);
 
-  const columns: GridColumns = [
+  const columns: GridColDef[] = [
     { field: 'id', width: 90, hideable: false, disableExport: true },
     {
       field: 'postal_code',
@@ -75,7 +76,7 @@ const AddressBook = () => {
       field: 'is_my_address',
       type: 'boolean',
       width: 120,
-      hide: true,
+      hideable: true,
       editable: false,
       disableExport: true,
     },
@@ -83,9 +84,9 @@ const AddressBook = () => {
       field: 'action',
       type: 'actions',
       width: 80,
-      getActions: ({ id }) => {
-        const deleteItem = () => hagakiDataDispatch({ type: 'delete_by_id', id: id.toString() });
-        return [<GridActionsCellItem icon={<DeleteIcon />} key={id} label="Delete" onClick={deleteItem} />];
+      getActions: (params: GridRowParams) => {
+        const deleteItem = () => hagakiDataDispatch({ type: 'delete_by_id', id: params.id.toString() });
+        return [<GridActionsCellItem icon={<DeleteIcon />} key={params.id} label="Delete" onClick={deleteItem} />];
       },
     },
   ];
@@ -114,7 +115,7 @@ const AddressBook = () => {
     );
   };
 
-  const onCellEditCommit = (params: GridCellEditCommitParams) => {
+  const onCellEditStop = (params: GridCellEditStopParams) => {
     const id = String(params.id);
     const editedField = params.field as keyof AddressRow;
     const newValue: AddressRow[keyof AddressRow] = params.value;
@@ -158,18 +159,18 @@ const AddressBook = () => {
         columns={columns}
         initialState={{
           pagination: {
-            pageSize: 10,
+            paginationModel: { pageSize: 10 },
           },
         }}
         isCellEditable={(params) => !params.row.is_my_address}
-        rowsPerPageOptions={[10, 20, 25, 50, 100]}
+        pageSizeOptions={[10, 20, 25, 50, 100]}
         pagination
         // checkboxSelection
-        disableSelectionOnClick
-        components={{
-          Toolbar: CustomToolbar,
+        disableRowSelectionOnClick
+        onCellEditStop={onCellEditStop}
+        slots={{
+          toolbar: CustomToolbar,
         }}
-        onCellEditCommit={onCellEditCommit}
       />
       <NewAddressDialog open={openDialog} onCloseDialog={onCloseDialog} />
     </Box>
