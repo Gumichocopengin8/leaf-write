@@ -1,4 +1,4 @@
-import { useContext, useState, useEffect } from 'react';
+import { useContext, useState, useEffect, useCallback } from 'react';
 import { Box, Button } from '@mui/material';
 import {
   DataGrid,
@@ -8,7 +8,6 @@ import {
   GridActionsCellItem,
   GridColDef,
   GridRowParams,
-  GridCellEditStopParams,
 } from '@mui/x-data-grid';
 import DeleteIcon from '@mui/icons-material/DeleteOutlined';
 import FileUploadOutlinedIcon from '@mui/icons-material/FileUploadOutlined';
@@ -18,6 +17,8 @@ import NewAddressDialog from 'components/newAddressDialog';
 import CSVReader from 'components/common/CSVReader';
 import { HagakiData } from 'interfaces/hagaki';
 import { convertToHagakiData } from 'utils/converter';
+
+const POSTAL_CODE_REGEX = /^\d{3}-\d{4}$/;
 
 const AddressBook = () => {
   const { hagakiStore, hagakiDataDispatch, snackbarDispatch } = useContext(AppContext);
@@ -115,32 +116,28 @@ const AddressBook = () => {
     );
   };
 
-  const onCellEditStop = (params: GridCellEditStopParams) => {
-    const id = String(params.id);
-    const editedField = params.field as keyof AddressRow;
-    const newValue: AddressRow[keyof AddressRow] = params.value;
-    const row = rowMap.get(id);
-    if (row && editedField in row && editedField !== 'is_my_address' && typeof newValue === 'string') {
-      if (editedField === 'postal_code') {
-        const isValidated = /^\d{3}-\d{4}$/.test(String(newValue));
-        if (!isValidated) {
-          snackbarDispatch({ type: 'open', message: '郵便番号がフォーマットが正しくありません', severity: 'error' });
-          return;
-        }
-      }
-      row[editedField] = newValue;
-      try {
-        const newHagakiData: HagakiData = convertToHagakiData(row);
-        hagakiDataDispatch({ type: 'update_by_id', data: newHagakiData });
-        snackbarDispatch({ type: 'open', message: '編集完了', severity: 'success' });
-      } catch (e) {
-        console.error(e);
-        snackbarDispatch({ type: 'open', message: '郵便番号がフォーマットが正しくありません', severity: 'error' });
-      }
-    } else {
-      snackbarDispatch({ type: 'open', message: '予期せぬエラーが起こりました', severity: 'error' });
+  const onCellEditCommit = (params: AddressRow) => {
+    // onProcessRowUpdateError will capture thrown error
+    const isValidated = POSTAL_CODE_REGEX.test(String(params.postal_code));
+    if (!isValidated) {
+      snackbarDispatch({ type: 'open', message: '郵便番号がフォーマットが正しくありません', severity: 'error' });
+      throw new Error('郵便番号がフォーマットが正しくありません');
+    }
+    try {
+      const newHagakiData: HagakiData = convertToHagakiData(params);
+      hagakiDataDispatch({ type: 'update_by_id', data: newHagakiData });
+      snackbarDispatch({ type: 'open', message: '編集完了', severity: 'success' });
+    } catch (e) {
+      throw new Error('予期せぬエラーが起こりました');
     }
   };
+
+  const handleProcessRowUpdateError = useCallback(
+    (e: Error) => {
+      snackbarDispatch({ type: 'open', message: e.message, severity: 'error' });
+    },
+    [snackbarDispatch]
+  );
 
   return (
     <Box
@@ -165,9 +162,17 @@ const AddressBook = () => {
         isCellEditable={(params) => !params.row.is_my_address}
         pageSizeOptions={[10, 20, 25, 50, 100]}
         pagination
+        processRowUpdate={(updatedRow: AddressRow, originalRow: AddressRow): AddressRow => {
+          try {
+            onCellEditCommit(updatedRow);
+            return updatedRow;
+          } catch {
+            return originalRow;
+          }
+        }}
+        onProcessRowUpdateError={handleProcessRowUpdateError}
         // checkboxSelection
         disableRowSelectionOnClick
-        onCellEditStop={onCellEditStop}
         slots={{
           toolbar: CustomToolbar,
         }}
