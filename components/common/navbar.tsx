@@ -29,7 +29,7 @@ const NavBar = () => {
     }
   }, [router]);
 
-  const onTabChange = (e: React.SyntheticEvent, newValue: number) => {
+  const onTabChange = (_e: React.SyntheticEvent, newValue: number) => {
     switch (newValue) {
       case 0:
         router.push({ pathname: `/` });

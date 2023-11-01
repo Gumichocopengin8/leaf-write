@@ -28,10 +28,17 @@ const MyInfo = () => {
 
   const onSubmit = (data: MyInfoType) => {
     const postalCode = data.postalCode.split('-');
+    const postalcodeLeft = postalCode[0];
+    const postalcode_right = postalCode[1];
+    if (postalcodeLeft === undefined || postalcode_right === undefined) {
+      snackbarDispatch({ type: 'open', message: '郵便番号パースエラー', severity: 'error' });
+      return;
+    }
+
     const myInfoData: HagakiData = {
       id: hagakiStore.hagakiData?.[0]?.id ?? uuidv4(),
-      postalcode_left: postalCode[0],
-      postalcode_right: postalCode[1],
+      postalcode_left: postalcodeLeft,
+      postalcode_right: postalcode_right,
       address1: data.address1,
       address2: data.address2,
       lastName: data.lastName,
@@ -58,8 +65,8 @@ const MyInfo = () => {
             defaultValue={
               (hagakiStore.hagakiData?.[0]?.postalcode_left ?? '') &&
               (hagakiStore.hagakiData?.[0]?.postalcode_right ?? '')
-                ? `${hagakiStore.hagakiData?.[0].postalcode_left ?? ''}-${
-                    hagakiStore.hagakiData?.[0].postalcode_right ?? 0
+                ? `${hagakiStore.hagakiData?.[0]?.postalcode_left ?? ''}-${
+                    hagakiStore.hagakiData?.[0]?.postalcode_right ?? 0
                   }`
                 : ''
             }

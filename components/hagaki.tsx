@@ -60,8 +60,9 @@ const HagakiDislay = ({ hagakiInfo, isPrintMode }: Props) => {
 const WorkSpace = styled.div<{ isPrintMode: boolean }>`
   position: relative;
   width: fit-content;
-  height: 100vh;
-  border: ${(props) => (props.isPrintMode ? '1px solid rgba(0, 0, 0, 0)' : '1px solid gray')};
+  box-sizing: border-box;
+  height: ${(props) => (props.isPrintMode ? 'calc(100vh - 4px)' : '100vh')};
+  border: ${(props) => (props.isPrintMode ? '1px solid transparent' : '1px solid gray')};
 `;
 
 const NengajoImage = styled.img<{ isPrintMode: boolean }>`
