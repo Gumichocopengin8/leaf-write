@@ -13,8 +13,9 @@ const Home: NextPage = () => {
   const [page, setPage] = useState<number>(1);
   const [componentBatchPrintRef, onBatchPrint] = usePrint();
   const [componentSinglePrintRef, onSinglePrint, isPrintModeForSingle] = usePrint();
+  const currentHagakiData = hagakiStore.hagakiData[page];
 
-  const onPageChange = (event: React.ChangeEvent<unknown>, value: number) => {
+  const onPageChange = (_event: React.ChangeEvent<unknown>, value: number) => {
     setPage(value);
   };
 
@@ -71,8 +72,8 @@ const Home: NextPage = () => {
               <Typography>宛名住所データも少なくとも１つは追加しましょう</Typography>
             </div>
           )}
-          {hagakiStore.hagakiData.length > 1 && (
-            <HagakiDislay hagakiInfo={hagakiStore.hagakiData[page]} isPrintMode={isPrintModeForSingle} />
+          {hagakiStore.hagakiData.length > 1 && currentHagakiData && (
+            <HagakiDislay hagakiInfo={currentHagakiData} isPrintMode={isPrintModeForSingle} />
           )}
         </div>
         <div style={{ display: 'none' }}>

@@ -6,13 +6,16 @@ import { postalCodeValidation } from 'utils/validation';
 export const convertToHagakiData = (d: AddressRow): HagakiData => {
   const isValidated = postalCodeValidation(String(d.postal_code));
   const postalCode = d.postal_code.split('-');
-  if (postalCode.length !== 2 || !isValidated) {
+  const postalcodeLeft = postalCode[0];
+  const postalcode_right = postalCode[1];
+
+  if (postalcodeLeft === undefined || postalcode_right === undefined || !isValidated) {
     throw new Error('postal code format is incorrect');
   }
   const newHagakiData: HagakiData = {
     id: d.id,
-    postalcode_left: postalCode[0],
-    postalcode_right: postalCode[1],
+    postalcode_left: postalcodeLeft,
+    postalcode_right: postalcode_right,
     address1: d.address1,
     address2: d.address2,
     lastName: d.last_name,
@@ -39,8 +42,8 @@ export const convertCSVtoHagakiData = (data: HagakiCSVData[]): HagakiData[] => {
     const postalCode = d.postal_code.split('-');
     return {
       id: uuidv4(),
-      postalcode_left: postalCode[0],
-      postalcode_right: postalCode[1],
+      postalcode_left: postalCode?.[0] ?? '000-0000',
+      postalcode_right: postalCode?.[1] ?? '000-0000',
       address1: d.address1,
       address2: d.address2,
       lastName: d.last_name,
