@@ -1,4 +1,4 @@
-import { useContext, useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { Box, Button } from '@mui/material';
 import {
   DataGrid,
@@ -11,7 +11,6 @@ import {
 } from '@mui/x-data-grid';
 import DeleteIcon from '@mui/icons-material/DeleteOutlined';
 import FileUploadOutlinedIcon from '@mui/icons-material/FileUploadOutlined';
-import { AppContext } from 'state/context';
 import { AddressRow } from 'interfaces/addressBook';
 import NewAddressDialog from 'components/newAddressDialog';
 import CSVReader from 'components/common/CSVReader';
@@ -22,8 +21,10 @@ import useBoundStore from 'state/store';
 const POSTAL_CODE_REGEX = /^\d{3}-\d{4}$/;
 
 const AddressBook = () => {
+  const hagakiData = useBoundStore((state) => state.hagakiData);
+  const updatHagakiById = useBoundStore((state) => state.updatHagakiById);
+  const deleteHagakiById = useBoundStore((state) => state.deleteHagakiById);
   const openStackbar = useBoundStore((state) => state.openStackbar);
-  const { hagakiStore, hagakiDataDispatch } = useContext(AppContext);
   const [openDialog, setOpenDialog] = useState<boolean>(false);
   const [rowMap, setRowMap] = useState<Map<string, AddressRow>>(new Map());
 
@@ -33,7 +34,7 @@ const AddressBook = () => {
 
   useEffect(() => {
     const newRowMap: Map<string, AddressRow> = new Map<string, AddressRow>();
-    hagakiStore.hagakiData.forEach((d, index) => {
+    hagakiData.forEach((d, index) => {
       const addressRow = {
         id: d.id,
         postal_code: `${d.postalcode_left}-${d.postalcode_right}`,
@@ -53,7 +54,7 @@ const AddressBook = () => {
       newRowMap.set(d.id, addressRow);
     });
     setRowMap(newRowMap);
-  }, [hagakiStore.hagakiData]);
+  }, [hagakiData]);
 
   const columns: GridColDef[] = [
     { field: 'id', width: 90, hideable: false, disableExport: true },
@@ -88,7 +89,7 @@ const AddressBook = () => {
       type: 'actions',
       width: 80,
       getActions: (params: GridRowParams) => {
-        const deleteItem = () => hagakiDataDispatch({ type: 'delete_by_id', id: params.id.toString() });
+        const deleteItem = () => deleteHagakiById(params.id.toString());
         return [<GridActionsCellItem icon={<DeleteIcon />} key={params.id} label="Delete" onClick={deleteItem} />];
       },
     },
@@ -127,7 +128,7 @@ const AddressBook = () => {
     }
     try {
       const newHagakiData: HagakiData = convertToHagakiData(params);
-      hagakiDataDispatch({ type: 'update_by_id', data: newHagakiData });
+      updatHagakiById(newHagakiData);
       openStackbar('編集完了', 'success');
     } catch (e) {
       throw new Error('予期せぬエラーが起こりました');

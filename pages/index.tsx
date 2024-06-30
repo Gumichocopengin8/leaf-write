@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react';
+import { useState } from 'react';
 import type { NextPage } from 'next';
 import Link from 'next/link';
 import { Typography, Button, Pagination, Stack } from '@mui/material';
@@ -6,20 +6,20 @@ import EnergySavingsLeafIcon from '@mui/icons-material/EnergySavingsLeaf';
 import { css } from '@emotion/react';
 import HagakiDislay from 'components/hagaki';
 import { usePrint } from 'hooks/usePrint';
-import { AppContext } from 'state/context';
+import useBoundStore from 'state/store';
 
 const Home: NextPage = () => {
-  const { hagakiStore } = useContext(AppContext);
+  const hagakiData = useBoundStore((state) => state.hagakiData);
   const [page, setPage] = useState<number>(1);
   const [componentBatchPrintRef, onBatchPrint] = usePrint();
   const [componentSinglePrintRef, onSinglePrint, isPrintModeForSingle] = usePrint();
-  const currentHagakiData = hagakiStore.hagakiData[page];
+  const currentHagakiData = hagakiData[page];
 
   const onPageChange = (_event: React.ChangeEvent<unknown>, value: number) => {
     setPage(value);
   };
 
-  if (hagakiStore.hagakiData.length === 0) {
+  if (hagakiData.length === 0) {
     return (
       <div css={Container}>
         <Typography variant="h4" gutterBottom>
@@ -45,7 +45,7 @@ const Home: NextPage = () => {
         </Typography>
         <Stack spacing={2}>
           <Pagination
-            count={hagakiStore.hagakiData.length - 1} // skip first one cuz first one is MY address
+            count={hagakiData.length - 1} // skip first one cuz first one is MY address
             page={page}
             onChange={onPageChange}
             color="primary"
@@ -66,19 +66,19 @@ const Home: NextPage = () => {
       </header>
       <div css={[Container, HagakiDislayContainer]}>
         <div ref={componentSinglePrintRef}>
-          {hagakiStore.hagakiData.length === 1 && (
+          {hagakiData.length === 1 && (
             <div css={Container}>
               <Typography>差出人住所のデータしかありません。</Typography>
               <Typography>宛名住所データも少なくとも１つは追加しましょう</Typography>
             </div>
           )}
-          {hagakiStore.hagakiData.length > 1 && currentHagakiData && (
+          {hagakiData.length > 1 && currentHagakiData && (
             <HagakiDislay hagakiInfo={currentHagakiData} isPrintMode={isPrintModeForSingle} />
           )}
         </div>
         <div style={{ display: 'none' }}>
           <div ref={componentBatchPrintRef}>
-            {hagakiStore.hagakiData.slice(1).map((d) => (
+            {hagakiData.slice(1).map((d) => (
               <HagakiDislay key={d.id} hagakiInfo={d} isPrintMode={true} />
             ))}
           </div>

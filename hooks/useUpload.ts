@@ -1,13 +1,11 @@
-import { useContext } from 'react';
 import { parse } from 'csv-parse';
-import { AppContext } from 'state/context';
 import { HagakiData, HagakiCSVData } from 'interfaces/hagaki';
 import { convertCSVtoHagakiData } from 'utils/converter';
 import useBoundStore from 'state/store';
 
 export const useUploadCSV = () => {
+  const appendHagaki = useBoundStore((state) => state.appendHagaki);
   const openStackbar = useBoundStore((state) => state.openStackbar);
-  const { hagakiDataDispatch } = useContext(AppContext);
 
   const uploadCSV = (file: File) => {
     const fileReader = new FileReader();
@@ -22,7 +20,7 @@ export const useUploadCSV = () => {
             }
             try {
               const hagakiData: HagakiData[] = convertCSVtoHagakiData(data);
-              hagakiDataDispatch({ type: 'append', newState: hagakiData });
+              appendHagaki(hagakiData);
               openStackbar(`${hagakiData.length}件のデータを読み込みました。`, 'success');
             } catch (err) {
               console.error(err);
