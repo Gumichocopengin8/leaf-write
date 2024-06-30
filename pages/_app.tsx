@@ -2,33 +2,30 @@ import type { AppProps } from 'next/app';
 import Head from 'next/head';
 import { Divider } from '@mui/material';
 import { css } from '@emotion/react';
-import { AppProvider } from 'state/context';
 import NavBar from 'components/common/navbar';
 import MainLayout from 'components/layout/mainLayout';
 import 'style/global.css';
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <AppProvider>
-      <div css={Wrapper}>
-        <>
-          <Head>
-            <title>リーフライト</title>
-            <meta name="description" content="リーフライト" />
-            <link rel="icon" href="/favicon.ico" />
-          </Head>
-          <div css={GridContainer}>
-            <nav css={TabNavContainer}>
-              <NavBar />
-              <Divider orientation="vertical" />
-            </nav>
-            <MainLayout>
-              <Component {...pageProps} />
-            </MainLayout>
-          </div>
-        </>
-      </div>
-    </AppProvider>
+    <div css={Wrapper}>
+      <>
+        <Head>
+          <title>リーフライト</title>
+          <meta name="description" content="リーフライト" />
+          <link rel="icon" href="/favicon.ico" />
+        </Head>
+        <div css={GridContainer}>
+          <nav css={TabNavContainer}>
+            <NavBar />
+            <Divider orientation="vertical" />
+          </nav>
+          <MainLayout>
+            <Component {...pageProps} />
+          </MainLayout>
+        </div>
+      </>
+    </div>
   );
 }
 

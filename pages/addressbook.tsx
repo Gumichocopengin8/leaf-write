@@ -1,4 +1,4 @@
-import { useContext, useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { Box, Button } from '@mui/material';
 import {
   DataGrid,
@@ -11,17 +11,20 @@ import {
 } from '@mui/x-data-grid';
 import DeleteIcon from '@mui/icons-material/DeleteOutlined';
 import FileUploadOutlinedIcon from '@mui/icons-material/FileUploadOutlined';
-import { AppContext } from 'state/context';
 import { AddressRow } from 'interfaces/addressBook';
 import NewAddressDialog from 'components/newAddressDialog';
 import CSVReader from 'components/common/CSVReader';
 import { HagakiData } from 'interfaces/hagaki';
 import { convertToHagakiData } from 'utils/converter';
+import useBoundStore from 'state/store';
 
 const POSTAL_CODE_REGEX = /^\d{3}-\d{4}$/;
 
 const AddressBook = () => {
-  const { hagakiStore, hagakiDataDispatch, snackbarDispatch } = useContext(AppContext);
+  const hagakiData = useBoundStore((state) => state.hagakiData);
+  const updatHagakiById = useBoundStore((state) => state.updatHagakiById);
+  const deleteHagakiById = useBoundStore((state) => state.deleteHagakiById);
+  const openStackbar = useBoundStore((state) => state.openStackbar);
   const [openDialog, setOpenDialog] = useState<boolean>(false);
   const [rowMap, setRowMap] = useState<Map<string, AddressRow>>(new Map());
 
@@ -31,7 +34,7 @@ const AddressBook = () => {
 
   useEffect(() => {
     const newRowMap: Map<string, AddressRow> = new Map<string, AddressRow>();
-    hagakiStore.hagakiData.forEach((d, index) => {
+    hagakiData.forEach((d, index) => {
       const addressRow = {
         id: d.id,
         postal_code: `${d.postalcode_left}-${d.postalcode_right}`,
@@ -51,7 +54,7 @@ const AddressBook = () => {
       newRowMap.set(d.id, addressRow);
     });
     setRowMap(newRowMap);
-  }, [hagakiStore.hagakiData]);
+  }, [hagakiData]);
 
   const columns: GridColDef[] = [
     { field: 'id', width: 90, hideable: false, disableExport: true },
@@ -86,7 +89,7 @@ const AddressBook = () => {
       type: 'actions',
       width: 80,
       getActions: (params: GridRowParams) => {
-        const deleteItem = () => hagakiDataDispatch({ type: 'delete_by_id', id: params.id.toString() });
+        const deleteItem = () => deleteHagakiById(params.id.toString());
         return [<GridActionsCellItem icon={<DeleteIcon />} key={params.id} label="Delete" onClick={deleteItem} />];
       },
     },
@@ -120,13 +123,13 @@ const AddressBook = () => {
     // onProcessRowUpdateError will capture thrown error
     const isValidated = POSTAL_CODE_REGEX.test(String(params.postal_code));
     if (!isValidated) {
-      snackbarDispatch({ type: 'open', message: '郵便番号がフォーマットが正しくありません', severity: 'error' });
+      openStackbar('郵便番号がフォーマットが正しくありません', 'error');
       throw new Error('郵便番号がフォーマットが正しくありません');
     }
     try {
       const newHagakiData: HagakiData = convertToHagakiData(params);
-      hagakiDataDispatch({ type: 'update_by_id', data: newHagakiData });
-      snackbarDispatch({ type: 'open', message: '編集完了', severity: 'success' });
+      updatHagakiById(newHagakiData);
+      openStackbar('編集完了', 'success');
     } catch (e) {
       throw new Error('予期せぬエラーが起こりました');
     }
@@ -134,9 +137,9 @@ const AddressBook = () => {
 
   const handleProcessRowUpdateError = useCallback(
     (e: Error) => {
-      snackbarDispatch({ type: 'open', message: e.message, severity: 'error' });
+      openStackbar(e.message, 'error');
     },
-    [snackbarDispatch]
+    [openStackbar]
   );
 
   return (

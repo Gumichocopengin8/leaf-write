@@ -1,13 +1,12 @@
-import { useContext } from 'react';
 import { Button, TextField, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import { v4 as uuidv4 } from 'uuid';
 import { css } from '@emotion/react';
 import { AddressRow } from 'interfaces/addressBook';
-import { AppContext } from 'state/context';
 import { convertToHagakiData } from 'utils/converter';
 import TextFieldPersonIcon from 'components/common/textFieldPersonIcon';
 import TextFieldHomeIcon from 'components/common/textFieldHomeIcon';
+import useBoundStore from 'state/store';
 
 type NewAddressType = {
   postalCode: string;
@@ -30,7 +29,9 @@ interface Props {
 }
 
 const NewAddressDialog = ({ open, onCloseDialog }: Props) => {
-  const { hagakiDataDispatch, hagakiStore, snackbarDispatch } = useContext(AppContext);
+  const hagakiData = useBoundStore((state) => state.hagakiData);
+  const appendHagaki = useBoundStore((state) => state.appendHagaki);
+  const openStackbar = useBoundStore((state) => state.openStackbar);
 
   const {
     register,
@@ -54,11 +55,11 @@ const NewAddressDialog = ({ open, onCloseDialog }: Props) => {
       suffix2: data.suffix2,
       suffix3: data.suffix3,
       suffix4: data.suffix4,
-      is_my_address: hagakiStore.hagakiData.length === 0,
+      is_my_address: hagakiData.length === 0,
     };
-    hagakiDataDispatch({ type: 'append', newState: [convertToHagakiData(newRow)] });
+    appendHagaki([convertToHagakiData(newRow)]);
     reset();
-    snackbarDispatch({ type: 'open', message: '新しい住所の追加成功', severity: 'success' });
+    openStackbar('新しい住所の追加成功', 'success');
     onCloseDialog();
   };
 
@@ -210,7 +211,7 @@ const NewAddressDialog = ({ open, onCloseDialog }: Props) => {
 const Content = css`
   display: flex;
   flex-direction: column;
-  gap: 1rem; ;
+  gap: 1rem;
 `;
 
 const FirstNameSuffix = css`
