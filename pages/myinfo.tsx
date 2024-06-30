@@ -7,6 +7,7 @@ import { AppContext } from 'state/context';
 import TextFieldPersonIcon from 'components/common/textFieldPersonIcon';
 import TextFieldHomeIcon from 'components/common/textFieldHomeIcon';
 import type { HagakiData } from 'interfaces/hagaki';
+import useBoundStore from 'state/store';
 
 type MyInfoType = {
   postalCode: string;
@@ -18,7 +19,8 @@ type MyInfoType = {
 };
 
 const MyInfo = () => {
-  const { hagakiDataDispatch, snackbarDispatch, hagakiStore } = useContext(AppContext);
+  const openStackbar = useBoundStore((state) => state.openStackbar);
+  const { hagakiDataDispatch, hagakiStore } = useContext(AppContext);
 
   const {
     register,
@@ -31,7 +33,7 @@ const MyInfo = () => {
     const postalcodeLeft = postalCode[0];
     const postalcode_right = postalCode[1];
     if (postalcodeLeft === undefined || postalcode_right === undefined) {
-      snackbarDispatch({ type: 'open', message: '郵便番号パースエラー', severity: 'error' });
+      openStackbar('郵便番号パースエラー', 'error');
       return;
     }
 
@@ -48,7 +50,7 @@ const MyInfo = () => {
       ],
     };
     hagakiDataDispatch({ type: 'update_by_id', data: myInfoData });
-    snackbarDispatch({ type: 'open', message: '保存成功', severity: 'success' });
+    openStackbar('保存成功', 'success');
   };
 
   return (

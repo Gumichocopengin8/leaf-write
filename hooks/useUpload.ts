@@ -3,9 +3,11 @@ import { parse } from 'csv-parse';
 import { AppContext } from 'state/context';
 import { HagakiData, HagakiCSVData } from 'interfaces/hagaki';
 import { convertCSVtoHagakiData } from 'utils/converter';
+import useBoundStore from 'state/store';
 
 export const useUploadCSV = () => {
-  const { hagakiDataDispatch, snackbarDispatch } = useContext(AppContext);
+  const openStackbar = useBoundStore((state) => state.openStackbar);
+  const { hagakiDataDispatch } = useContext(AppContext);
 
   const uploadCSV = (file: File) => {
     const fileReader = new FileReader();
@@ -21,19 +23,14 @@ export const useUploadCSV = () => {
             try {
               const hagakiData: HagakiData[] = convertCSVtoHagakiData(data);
               hagakiDataDispatch({ type: 'append', newState: hagakiData });
-              snackbarDispatch({
-                type: 'open',
-                message: `${hagakiData.length}件のデータを読み込みました。`,
-                severity: 'success',
-              });
+              openStackbar(`${hagakiData.length}件のデータを読み込みました。`, 'success');
             } catch (err) {
               console.error(err);
               if (err instanceof Error) {
-                snackbarDispatch({
-                  type: 'open',
-                  message: `${err.message}. CSVをインポートできませんでした。書式が正しいか確認してみてください。`,
-                  severity: 'error',
-                });
+                openStackbar(
+                  `${err.message}. CSVをインポートできませんでした。書式が正しいか確認してみてください。`,
+                  'error'
+                );
               }
             }
           });

@@ -8,6 +8,7 @@ import { AppContext } from 'state/context';
 import { convertToHagakiData } from 'utils/converter';
 import TextFieldPersonIcon from 'components/common/textFieldPersonIcon';
 import TextFieldHomeIcon from 'components/common/textFieldHomeIcon';
+import useBoundStore from 'state/store';
 
 type NewAddressType = {
   postalCode: string;
@@ -30,7 +31,8 @@ interface Props {
 }
 
 const NewAddressDialog = ({ open, onCloseDialog }: Props) => {
-  const { hagakiDataDispatch, hagakiStore, snackbarDispatch } = useContext(AppContext);
+  const openStackbar = useBoundStore((state) => state.openStackbar);
+  const { hagakiDataDispatch, hagakiStore } = useContext(AppContext);
 
   const {
     register,
@@ -58,7 +60,7 @@ const NewAddressDialog = ({ open, onCloseDialog }: Props) => {
     };
     hagakiDataDispatch({ type: 'append', newState: [convertToHagakiData(newRow)] });
     reset();
-    snackbarDispatch({ type: 'open', message: '新しい住所の追加成功', severity: 'success' });
+    openStackbar('新しい住所の追加成功', 'success');
     onCloseDialog();
   };
 
@@ -210,7 +212,7 @@ const NewAddressDialog = ({ open, onCloseDialog }: Props) => {
 const Content = css`
   display: flex;
   flex-direction: column;
-  gap: 1rem; ;
+  gap: 1rem;
 `;
 
 const FirstNameSuffix = css`

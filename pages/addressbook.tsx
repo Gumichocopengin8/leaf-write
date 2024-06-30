@@ -17,11 +17,13 @@ import NewAddressDialog from 'components/newAddressDialog';
 import CSVReader from 'components/common/CSVReader';
 import { HagakiData } from 'interfaces/hagaki';
 import { convertToHagakiData } from 'utils/converter';
+import useBoundStore from 'state/store';
 
 const POSTAL_CODE_REGEX = /^\d{3}-\d{4}$/;
 
 const AddressBook = () => {
-  const { hagakiStore, hagakiDataDispatch, snackbarDispatch } = useContext(AppContext);
+  const openStackbar = useBoundStore((state) => state.openStackbar);
+  const { hagakiStore, hagakiDataDispatch } = useContext(AppContext);
   const [openDialog, setOpenDialog] = useState<boolean>(false);
   const [rowMap, setRowMap] = useState<Map<string, AddressRow>>(new Map());
 
@@ -120,13 +122,13 @@ const AddressBook = () => {
     // onProcessRowUpdateError will capture thrown error
     const isValidated = POSTAL_CODE_REGEX.test(String(params.postal_code));
     if (!isValidated) {
-      snackbarDispatch({ type: 'open', message: '郵便番号がフォーマットが正しくありません', severity: 'error' });
+      openStackbar('郵便番号がフォーマットが正しくありません', 'error');
       throw new Error('郵便番号がフォーマットが正しくありません');
     }
     try {
       const newHagakiData: HagakiData = convertToHagakiData(params);
       hagakiDataDispatch({ type: 'update_by_id', data: newHagakiData });
-      snackbarDispatch({ type: 'open', message: '編集完了', severity: 'success' });
+      openStackbar('編集完了', 'success');
     } catch (e) {
       throw new Error('予期せぬエラーが起こりました');
     }
@@ -134,9 +136,9 @@ const AddressBook = () => {
 
   const handleProcessRowUpdateError = useCallback(
     (e: Error) => {
-      snackbarDispatch({ type: 'open', message: e.message, severity: 'error' });
+      openStackbar(e.message, 'error');
     },
-    [snackbarDispatch]
+    [openStackbar]
   );
 
   return (

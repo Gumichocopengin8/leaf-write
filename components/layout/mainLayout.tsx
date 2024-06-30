@@ -1,30 +1,27 @@
-import { ReactNode, useContext } from 'react';
+import { ReactNode } from 'react';
 import { css } from '@emotion/react';
 import { Alert, Snackbar } from '@mui/material';
-import { AppContext } from 'state/context';
+import useBoundStore from 'state/store';
 
 interface Props {
   children: ReactNode;
 }
 
 const MainLayout: React.FC<Props> = ({ children }: Props) => {
-  const { stackbarStore, snackbarDispatch } = useContext(AppContext);
-
-  const onCloseStackbar = () => {
-    snackbarDispatch({ type: 'close' });
-  };
+  const stackbarStore = useBoundStore((state) => state.stackbar);
+  const closeStackbar = useBoundStore((state) => state.closeStackbar);
 
   return (
     <>
       <main css={[MainContainer, Main]}>{children}</main>
       <Snackbar
-        open={stackbarStore.data.isOpen}
+        open={stackbarStore.isOpen}
         autoHideDuration={5000}
-        onClose={onCloseStackbar}
+        onClose={closeStackbar}
         anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
       >
-        <Alert onClose={onCloseStackbar} variant="filled" severity={stackbarStore.data.severity}>
-          {stackbarStore.data.message}
+        <Alert onClose={closeStackbar} variant="filled" severity={stackbarStore.severity}>
+          {stackbarStore.message}
         </Alert>
       </Snackbar>
     </>
