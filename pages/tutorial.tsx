@@ -119,12 +119,12 @@ const Tutorial = () => {
           </Typography>
           <Typography variant="body1" paragraph css={Warning}>
             方法１、２のどちらの方法の場合も１行目のデータは差出人データとして扱われます。
-            そのため、空テーブルの状態からデータが１つしかないCSVをインポート したり、住所追加をした場合は
+            そのため、空テーブルの状態からデータが１つしかないCSVをインポートしたり、住所追加をした場合は
             <mark css={HighLight}>Address Book</mark>
-            のテーブルには１行目が見た目がグレーの状態で反映されますが編集はできません。 編集は
-            <mark css={HighLight}>My Infoページ</mark>からしてください。 ですが、
+            のテーブルには１行目の<mark css={HighLight}>is_my_address</mark>にチェックが付きますが編集はできません。
+            編集は<mark css={HighLight}>My Infoページ</mark>からしてください。ですが、
             <mark css={HighLight}>Address Book</mark>
-            テーブルから削除は可能です。その場合は２行目のデータが差出人住所となります。
+            テーブルから削除は可能です。その場合は新たに１行目となったデータが差出人住所となります。
           </Typography>
         </article>
         <article>
@@ -132,7 +132,8 @@ const Tutorial = () => {
             宛名データの編集
           </Typography>
           <Typography variant="body1" paragraph>
-            テーブルセルをダブルクリックすることでデータを編集することができます。１行目データとと全ての行のIDは編集不可です。
+            テーブルセルをダブルクリックすることでデータを編集することができます。
+            <mark css={HighLight}>is_my_address</mark>のチェックが付いているデータと全ての行のIDは編集不可です。
           </Typography>
         </article>
         <article>
@@ -174,6 +175,10 @@ const Tutorial = () => {
           <Typography variant="body1" paragraph>
             作業後は <mark css={HighLight}>Address Bookページ</mark>
             からCSVファイルをエクスポートしておくと将来的に再度データを利用することができます。
+            <mark css={Warning}>注意点</mark>として
+            <mark css={HighLight}>is_my_address</mark>
+            のチェックが付いているデータが１番目に来るようにソートして下さい。そうすることによって次回、差出人データとして使うことができます。
+            また、フィルターやソート等を有効にしたままエクスポートすると、それらが反映された状態でエクスポートされることになるので再度ご確認ください。
           </Typography>
         </article>
       </article>
@@ -198,7 +203,7 @@ const HighLight = css`
 `;
 
 const Header = css`
-  margin-top: 1rem; ;
+  margin-top: 1rem;
 `;
 
 const Warning = css`
