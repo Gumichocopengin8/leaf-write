@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import type { ReactNode } from 'react';
 import { css } from '@emotion/react';
 import { Alert, Snackbar } from '@mui/material';
 import useBoundStore from 'state/store';

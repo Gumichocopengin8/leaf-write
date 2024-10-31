@@ -6,15 +6,15 @@ import {
   GridToolbarExportContainer,
   GridCsvExportMenuItem,
   GridActionsCellItem,
-  GridColDef,
-  GridRowParams,
+  type GridColDef,
+  type GridRowParams,
 } from '@mui/x-data-grid';
 import DeleteIcon from '@mui/icons-material/DeleteOutlined';
 import FileUploadOutlinedIcon from '@mui/icons-material/FileUploadOutlined';
-import { AddressRow } from 'interfaces/addressBook';
+import type { AddressRow } from 'interfaces/addressBook';
 import NewAddressDialog from 'components/newAddressDialog';
 import CSVReader from 'components/common/CSVReader';
-import { HagakiData } from 'interfaces/hagaki';
+import type { HagakiData } from 'interfaces/hagaki';
 import { convertToHagakiData } from 'utils/converter';
 import useBoundStore from 'state/store';
 

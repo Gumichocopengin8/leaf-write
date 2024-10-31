@@ -6,9 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
-    "prettier": "prettier --write",
-    "eslint": "eslint --fix './**/*.{js,ts,tsx}'",
+    "lint": "biome lint ./",
     "lint-staged": "lint-staged"
   },
   "dependencies": {
@@ -28,6 +26,7 @@
     "zustand": "^5.0.0"
   },
   "devDependencies": {
+    "@biomejs/biome": "^1.9.4",
     "@types/node": "22.8.4",
     "@types/react": "18.3.12",
     "@types/react-dom": "18.3.1",
@@ -43,18 +42,17 @@
     "prettier": "^3.3.3",
     "typescript": "5.6.3"
   },
+  "optionalDependencies": {
+    "@biomejs/cli-linux-x64": "^1.9.4"
+  },
   "husky": {
     "hooks": {
       "pre-commit": "lint-staged"
     }
   },
   "lint-staged": {
-    "*.{js,ts,tsx}": [
-      "prettier --write",
-      "eslint --fix './**/*.{js,ts,tsx}'"
-    ],
-    "*.scss": [
-      "prettier --write"
+    "*.{js,ts,tsx,scss}": [
+      "biome lint './**/*.{js,ts,tsx}''"
     ]
   }
 }

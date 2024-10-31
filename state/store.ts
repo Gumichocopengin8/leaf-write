@@ -1,7 +1,7 @@
-import { create, StateCreator } from 'zustand';
+import { create, type StateCreator } from 'zustand';
 import { immer } from 'zustand/middleware/immer';
-import { HagakiData } from 'interfaces/hagaki';
-import { Severity, SNACKBAR_DATA_INITIAL_STATE, StackbarData } from 'interfaces/stackbar';
+import type { HagakiData } from 'interfaces/hagaki';
+import { type Severity, SNACKBAR_DATA_INITIAL_STATE, type StackbarData } from 'interfaces/stackbar';
 
 interface HagakiSlice {
   hagakiData: HagakiData[];

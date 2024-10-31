@@ -11,13 +11,13 @@ const NavBar = () => {
 
   useEffect(() => {
     switch (router.pathname) {
-      case `/`:
+      case '/':
         setTabValue(0);
         break;
-      case `/addressbook`:
+      case '/addressbook':
         setTabValue(1);
         break;
-      case `/myinfo`:
+      case '/myinfo':
         setTabValue(2);
         break;
       case '/tutorial':
@@ -32,16 +32,16 @@ const NavBar = () => {
   const onTabChange = (_e: React.SyntheticEvent, newValue: number) => {
     switch (newValue) {
       case 0:
-        router.push({ pathname: `/` });
+        router.push({ pathname: '/' });
         break;
       case 1:
-        router.push({ pathname: `/addressbook` });
+        router.push({ pathname: '/addressbook' });
         break;
       case 2:
-        router.push({ pathname: `/myinfo` });
+        router.push({ pathname: '/myinfo' });
         break;
       case 3:
-        router.push({ pathname: `/tutorial` });
+        router.push({ pathname: '/tutorial' });
         break;
       default:
         break;
