@@ -1,5 +1,5 @@
 import { parse } from 'csv-parse';
-import { HagakiData, HagakiCSVData } from 'interfaces/hagaki';
+import type { HagakiData, HagakiCSVData } from 'interfaces/hagaki';
 import { convertCSVtoHagakiData } from 'utils/converter';
 import useBoundStore from 'state/store';
 
@@ -11,7 +11,7 @@ export const useUploadCSV = () => {
     const fileReader = new FileReader();
     fileReader.readAsText(file);
     fileReader.onload = (e: ProgressEvent<FileReader>) => {
-      if (e && e.target) {
+      if (e?.target) {
         if (typeof e.target.result === 'string') {
           const text = e.target.result;
           parse(text, { delimiter: ',', columns: true, skip_empty_lines: true }, (err, data: HagakiCSVData[]) => {

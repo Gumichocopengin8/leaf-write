@@ -1,6 +1,6 @@
 import { v4 as uuidv4 } from 'uuid';
-import { HagakiData, HagakiCSVData } from 'interfaces/hagaki';
-import { AddressRow } from 'interfaces/addressBook';
+import type { HagakiData, HagakiCSVData } from 'interfaces/hagaki';
+import type { AddressRow } from 'interfaces/addressBook';
 import { postalCodeValidation } from 'utils/validation';
 
 export const convertToHagakiData = (d: AddressRow): HagakiData => {

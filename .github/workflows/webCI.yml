@@ -9,7 +9,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest]
-        node-version: [20.x]
+        node-version: [22.x]
 
     steps:
       - uses: actions/checkout@v4
@@ -22,7 +22,7 @@ jobs:
         id: node_modules_cache_id-dir
         run: |
           echo "::set-output name=dir::$(npm config get cache)"
-      - uses: actions/cache@v3
+      - uses: actions/cache@v4
         id: node_modules_cache_id
         with:
           path: ${{ steps.node_modules_cache_id-dir.outputs.dir }}
@@ -42,7 +42,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest]
-        node-version: [20.x]
+        node-version: [22.x]
 
     steps:
       - uses: actions/checkout@v4
@@ -55,7 +55,7 @@ jobs:
         id: node_modules_cache_id-dir
         run: |
           echo "::set-output name=dir::$(npm config get cache)"
-      - uses: actions/cache@v3
+      - uses: actions/cache@v4
         id: node_modules_cache_id
         with:
           path: ${{ steps.node_modules_cache_id-dir.outputs.dir }}

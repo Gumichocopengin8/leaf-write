@@ -1,4 +1,4 @@
-import { useRef, useState, RefObject } from 'react';
+import { useRef, useState, type RefObject } from 'react';
 import { useReactToPrint } from 'react-to-print';
 
 export const usePrint = (): [RefObject<HTMLDivElement>, () => void, boolean] => {

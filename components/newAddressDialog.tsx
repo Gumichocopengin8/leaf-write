@@ -2,7 +2,7 @@ import { Button, TextField, Dialog, DialogActions, DialogContent, DialogTitle } 
 import { useForm } from 'react-hook-form';
 import { v4 as uuidv4 } from 'uuid';
 import { css } from '@emotion/react';
-import { AddressRow } from 'interfaces/addressBook';
+import type { AddressRow } from 'interfaces/addressBook';
 import { convertToHagakiData } from 'utils/converter';
 import TextFieldPersonIcon from 'components/common/textFieldPersonIcon';
 import TextFieldHomeIcon from 'components/common/textFieldHomeIcon';

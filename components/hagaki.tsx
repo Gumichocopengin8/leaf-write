@@ -1,6 +1,6 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
-import { HagakiData } from 'interfaces/hagaki';
+import type { HagakiData } from 'interfaces/hagaki';
 import useBoundStore from 'state/store';
 
 interface Props {
@@ -26,6 +26,7 @@ const HagakiDislay = ({ hagakiInfo, isPrintMode }: Props) => {
             <div>{hagakiInfo.lastName}</div>
             <div>
               {hagakiInfo.firstNameSuffixList.map((d, index) => (
+                // biome-ignore lint: cannot find better key
                 <div key={index} css={Suffix}>
                   <div>{d.firstName}</div>
                   <div>{d.suffix}</div>
