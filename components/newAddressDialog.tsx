@@ -71,61 +71,61 @@ const NewAddressDialog = ({ open, onCloseDialog }: Props) => {
           <TextField
             {...register('postalCode', { required: true, pattern: /^\d{3}-\d{4}$/ })}
             autoFocus
-            autoComplete="off"
-            label="郵便番号"
-            variant="standard"
-            placeholder="123-4567"
+            autoComplete='off'
+            label='郵便番号'
+            variant='standard'
+            placeholder='123-4567'
             error={!!errors.postalCode}
             InputProps={{ startAdornment: <TextFieldHomeIcon /> }}
           />
           <TextField
             {...register('address1', { required: true })}
-            autoComplete="off"
-            label="住所1"
+            autoComplete='off'
+            label='住所1'
             fullWidth
-            variant="standard"
-            placeholder="東京都新宿区"
+            variant='standard'
+            placeholder='東京都新宿区'
             error={!!errors.address1}
             InputProps={{ startAdornment: <TextFieldHomeIcon /> }}
           />
           <TextField
             {...register('address2')}
-            autoComplete="off"
-            label="住所2"
+            autoComplete='off'
+            label='住所2'
             fullWidth
-            variant="standard"
-            placeholder="おうちアパートメント１号室"
+            variant='standard'
+            placeholder='おうちアパートメント１号室'
             error={!!errors.address2}
             InputProps={{ startAdornment: <TextFieldHomeIcon /> }}
           />
           <TextField
             {...register('lastName', { required: true })}
-            autoComplete="off"
-            label="名字"
+            autoComplete='off'
+            label='名字'
             fullWidth
-            variant="standard"
-            placeholder="神風"
+            variant='standard'
+            placeholder='神風'
             error={!!errors.lastName}
             InputProps={{ startAdornment: <TextFieldPersonIcon /> }}
           />
           <div css={FirstNameSuffix}>
             <TextField
               {...register('firstName1', { required: true })}
-              autoComplete="off"
-              label="名前1"
+              autoComplete='off'
+              label='名前1'
               fullWidth
-              variant="standard"
-              placeholder="太郎"
+              variant='standard'
+              placeholder='太郎'
               error={!!errors.firstName1}
               InputProps={{ startAdornment: <TextFieldPersonIcon /> }}
             />
             <TextField
               {...register('suffix1', { required: true })}
-              autoComplete="off"
-              label="敬称1"
+              autoComplete='off'
+              label='敬称1'
               fullWidth
-              variant="standard"
-              placeholder="様"
+              variant='standard'
+              placeholder='様'
               error={!!errors.suffix1}
               InputProps={{ startAdornment: <TextFieldPersonIcon /> }}
             />
@@ -133,21 +133,21 @@ const NewAddressDialog = ({ open, onCloseDialog }: Props) => {
           <div css={FirstNameSuffix}>
             <TextField
               {...register('firstName2')}
-              autoComplete="off"
-              label="名前2"
+              autoComplete='off'
+              label='名前2'
               fullWidth
-              variant="standard"
-              placeholder="たろ子"
+              variant='standard'
+              placeholder='たろ子'
               error={!!errors.firstName2}
               InputProps={{ startAdornment: <TextFieldPersonIcon /> }}
             />
             <TextField
               {...register('suffix2')}
-              autoComplete="off"
-              label="敬称2"
+              autoComplete='off'
+              label='敬称2'
               fullWidth
-              variant="standard"
-              placeholder="様"
+              variant='standard'
+              placeholder='様'
               error={!!errors.suffix2}
               InputProps={{ startAdornment: <TextFieldPersonIcon /> }}
             />
@@ -155,11 +155,11 @@ const NewAddressDialog = ({ open, onCloseDialog }: Props) => {
           <div css={FirstNameSuffix}>
             <TextField
               {...register('firstName3')}
-              autoComplete="off"
-              label="名前3"
+              autoComplete='off'
+              label='名前3'
               fullWidth
-              variant="standard"
-              placeholder="たろ助"
+              variant='standard'
+              placeholder='たろ助'
               error={!!errors.firstName3}
               InputProps={{
                 startAdornment: <TextFieldPersonIcon />,
@@ -167,11 +167,11 @@ const NewAddressDialog = ({ open, onCloseDialog }: Props) => {
             />
             <TextField
               {...register('suffix3')}
-              autoComplete="off"
-              label="敬称3"
+              autoComplete='off'
+              label='敬称3'
               fullWidth
-              variant="standard"
-              placeholder="様"
+              variant='standard'
+              placeholder='様'
               error={!!errors.suffix3}
               InputProps={{ startAdornment: <TextFieldPersonIcon /> }}
             />
@@ -179,21 +179,21 @@ const NewAddressDialog = ({ open, onCloseDialog }: Props) => {
           <div css={FirstNameSuffix}>
             <TextField
               {...register('firstName4')}
-              autoComplete="off"
-              label="名前4"
+              autoComplete='off'
+              label='名前4'
               fullWidth
-              variant="standard"
-              placeholder="たろいも"
+              variant='standard'
+              placeholder='たろいも'
               error={!!errors.firstName4}
               InputProps={{ startAdornment: <TextFieldPersonIcon /> }}
             />
             <TextField
               {...register('suffix4')}
-              autoComplete="off"
-              label="敬称4"
+              autoComplete='off'
+              label='敬称4'
               fullWidth
-              variant="standard"
-              placeholder="様"
+              variant='standard'
+              placeholder='様'
               error={!!errors.suffix4}
               InputProps={{ startAdornment: <TextFieldPersonIcon /> }}
             />
@@ -201,7 +201,7 @@ const NewAddressDialog = ({ open, onCloseDialog }: Props) => {
         </DialogContent>
         <DialogActions>
           <Button onClick={onCloseDialog}>キャンセル</Button>
-          <Button type="submit">追加</Button>
+          <Button type='submit'>追加</Button>
         </DialogActions>
       </form>
     </Dialog>

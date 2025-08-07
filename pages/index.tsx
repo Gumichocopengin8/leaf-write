@@ -22,15 +22,15 @@ const Home: NextPage = () => {
   if (hagakiData.length === 0) {
     return (
       <div css={Container}>
-        <Typography variant="h4" gutterBottom>
+        <Typography variant='h4' gutterBottom>
           ようこそ、リーフライト
-          <EnergySavingsLeafIcon fontSize="large" color="success" />へ
+          <EnergySavingsLeafIcon fontSize='large' color='success' />へ
         </Typography>
         <Typography>年賀状ハガキの住所をウェブで簡単に作成、プリントすることができます</Typography>
-        <Link css={HyperLink} href="/tutorial">
+        <Link css={HyperLink} href='/tutorial'>
           <Button>チュートリアルを見る</Button>
         </Link>
-        <Link css={HyperLink} href="/addressbook">
+        <Link css={HyperLink} href='/addressbook'>
           <Button>はじめる</Button>
         </Link>
       </div>
@@ -40,7 +40,7 @@ const Home: NextPage = () => {
   return (
     <>
       <header css={Topbar}>
-        <Typography variant="h6" component="div">
+        <Typography variant='h6' component='div'>
           プレビュー
         </Typography>
         <Stack spacing={2}>
@@ -48,18 +48,18 @@ const Home: NextPage = () => {
             count={hagakiData.length - 1} // skip first one cuz first one is MY address
             page={page}
             onChange={onPageChange}
-            color="primary"
-            variant="outlined"
-            shape="rounded"
+            color='primary'
+            variant='outlined'
+            shape='rounded'
             showFirstButton
             showLastButton
           />
         </Stack>
         <div css={ButtonGroup}>
-          <Button onClick={onSinglePrint} variant="outlined">
+          <Button onClick={onSinglePrint} variant='outlined'>
             印刷
           </Button>
-          <Button onClick={onBatchPrint} variant="contained">
+          <Button onClick={onBatchPrint} variant='contained'>
             一括印刷
           </Button>
         </div>

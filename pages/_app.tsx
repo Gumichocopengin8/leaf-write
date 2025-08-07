@@ -9,22 +9,20 @@ import 'style/global.css';
 function MyApp({ Component, pageProps }: AppProps) {
   return (
     <div css={Wrapper}>
-      <>
-        <Head>
-          <title>リーフライト</title>
-          <meta name="description" content="リーフライト" />
-          <link rel="icon" href="/favicon.ico" />
-        </Head>
-        <div css={GridContainer}>
-          <nav css={TabNavContainer}>
-            <NavBar />
-            <Divider orientation="vertical" />
-          </nav>
-          <MainLayout>
-            <Component {...pageProps} />
-          </MainLayout>
-        </div>
-      </>
+      <Head>
+        <title>リーフライト</title>
+        <meta name='description' content='リーフライト' />
+        <link rel='icon' href='/favicon.ico' />
+      </Head>
+      <div css={GridContainer}>
+        <nav css={TabNavContainer}>
+          <NavBar />
+          <Divider orientation='vertical' />
+        </nav>
+        <MainLayout>
+          <Component {...pageProps} />
+        </MainLayout>
+      </div>
     </div>
   );
 }

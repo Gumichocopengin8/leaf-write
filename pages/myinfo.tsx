@@ -59,10 +59,10 @@ const MyInfo = () => {
         <FormControl css={FormContainer}>
           <TextField
             {...register('postalCode', { required: true, pattern: /^\d{3}-\d{4}$/ })}
-            autoComplete="off"
-            label="郵便番号"
-            variant="standard"
-            placeholder="123-4567"
+            autoComplete='off'
+            label='郵便番号'
+            variant='standard'
+            placeholder='123-4567'
             defaultValue={
               (hagakiData?.[0]?.postalcode_left ?? '') && (hagakiData?.[0]?.postalcode_right ?? '')
                 ? `${hagakiData?.[0]?.postalcode_left ?? ''}-${hagakiData?.[0]?.postalcode_right ?? 0}`
@@ -73,10 +73,10 @@ const MyInfo = () => {
           />
           <TextField
             {...register('address1', { required: true })}
-            autoComplete="off"
-            label="住所1"
-            variant="standard"
-            placeholder="東京都新宿区"
+            autoComplete='off'
+            label='住所1'
+            variant='standard'
+            placeholder='東京都新宿区'
             fullWidth
             defaultValue={hagakiData?.[0]?.address1 ?? ''}
             error={!!errors.address1}
@@ -84,10 +84,10 @@ const MyInfo = () => {
           />
           <TextField
             {...register('address2')}
-            autoComplete="off"
-            label="住所2"
-            variant="standard"
-            placeholder="おうちアパートメント１号室"
+            autoComplete='off'
+            label='住所2'
+            variant='standard'
+            placeholder='おうちアパートメント１号室'
             fullWidth
             defaultValue={hagakiData?.[0]?.address2 ?? ''}
             error={!!errors.address2}
@@ -96,10 +96,10 @@ const MyInfo = () => {
           <div css={NameContainer}>
             <TextField
               {...register('lastName', { required: true })}
-              autoComplete="off"
-              label="名字"
-              variant="standard"
-              placeholder="神風"
+              autoComplete='off'
+              label='名字'
+              variant='standard'
+              placeholder='神風'
               defaultValue={hagakiData?.[0]?.lastName}
               error={!!errors.lastName}
               InputProps={{ startAdornment: <TextFieldPersonIcon /> }}
@@ -107,20 +107,20 @@ const MyInfo = () => {
             <div css={FirstNameSuffixContainer}>
               <TextField
                 {...register('firstName1', { required: true })}
-                autoComplete="off"
-                label="名前1"
-                variant="standard"
-                placeholder="太郎"
+                autoComplete='off'
+                label='名前1'
+                variant='standard'
+                placeholder='太郎'
                 defaultValue={hagakiData?.[0]?.firstNameSuffixList?.[0]?.firstName ?? ''}
                 error={!!errors.firstName1}
                 InputProps={{ startAdornment: <TextFieldPersonIcon /> }}
               />
               <TextField
                 {...register('firstName2')}
-                autoComplete="off"
-                label="名前2"
-                variant="standard"
-                placeholder="もも子"
+                autoComplete='off'
+                label='名前2'
+                variant='standard'
+                placeholder='もも子'
                 defaultValue={hagakiData?.[0]?.firstNameSuffixList?.[1]?.firstName ?? ''}
                 error={!!errors.firstName2}
                 InputProps={{ startAdornment: <TextFieldPersonIcon /> }}
@@ -128,7 +128,7 @@ const MyInfo = () => {
             </div>
           </div>
           <div css={ButtonGroup}>
-            <Button fullWidth type="submit" variant="contained">
+            <Button fullWidth type='submit' variant='contained'>
               Save
             </Button>
           </div>

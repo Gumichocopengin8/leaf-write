@@ -14,7 +14,7 @@ const CSVReader = ({ id }: Props) => {
     }
   };
 
-  return <input id={id} type="file" accept=".csv" onChange={onUploadFile} />;
+  return <input id={id} type='file' accept='.csv' onChange={onUploadFile} />;
 };
 
 export default CSVReader;

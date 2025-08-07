@@ -20,7 +20,7 @@ const MainLayout: React.FC<Props> = ({ children }: Props) => {
         onClose={closeStackbar}
         anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
       >
-        <Alert onClose={closeStackbar} variant="filled" severity={stackbarStore.severity}>
+        <Alert onClose={closeStackbar} variant='filled' severity={stackbarStore.severity}>
           {stackbarStore.message}
         </Alert>
       </Snackbar>
