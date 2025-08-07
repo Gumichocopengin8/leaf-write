@@ -1,7 +1,11 @@
 {
-  "$schema": "https://biomejs.dev/schemas/1.9.4/schema.json",
-  "organizeImports": {
-    "enabled": true
+  "$schema": "https://biomejs.dev/schemas/2.1.4/schema.json",
+  "assist": {
+    "actions": {
+      "source": {
+        "organizeImports": "on"
+      }
+    }
   },
   "linter": {
     "enabled": true,
@@ -16,6 +20,19 @@
       "trailingCommas": "es5",
       "jsxQuoteStyle": "single",
       "lineWidth": 120
+    }
+  },
+  "css": {
+    "formatter": {
+      "quoteStyle": "single",
+      "indentStyle": "space",
+      "lineWidth": 120
+    }
+  },
+  "json": {
+    "formatter": {
+      "trailingCommas": "none",
+      "indentStyle": "space"
     }
   },
   "vcs": {

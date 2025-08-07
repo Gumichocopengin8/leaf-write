@@ -90,7 +90,7 @@ const AddressBook = () => {
       width: 80,
       getActions: (params: GridRowParams) => {
         const deleteItem = () => deleteHagakiById(params.id.toString());
-        return [<GridActionsCellItem icon={<DeleteIcon />} key={params.id} label="Delete" onClick={deleteItem} />];
+        return [<GridActionsCellItem icon={<DeleteIcon />} key={params.id} label='Delete' onClick={deleteItem} />];
       },
     },
   ];
@@ -106,11 +106,11 @@ const AddressBook = () => {
             }}
           />
         </GridToolbarExportContainer>
-        <label htmlFor="csv-button-file">
+        <label htmlFor='csv-button-file'>
           <div style={{ display: 'none' }}>
-            <CSVReader id="csv-button-file" />
+            <CSVReader id='csv-button-file' />
           </div>
-          <Button component="span" startIcon={<FileUploadOutlinedIcon />}>
+          <Button component='span' startIcon={<FileUploadOutlinedIcon />}>
             Import CSV
           </Button>
         </label>
@@ -130,7 +130,7 @@ const AddressBook = () => {
       const newHagakiData: HagakiData = convertToHagakiData(params);
       updatHagakiById(newHagakiData);
       openStackbar('編集完了', 'success');
-    } catch (e) {
+    } catch (_e) {
       throw new Error('予期せぬエラーが起こりました');
     }
   };

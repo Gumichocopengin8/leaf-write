@@ -14,42 +14,40 @@ const HagakiDislay = ({ hagakiInfo, isPrintMode }: Props) => {
   const numberOfFirstNames = () => hagakiInfo.firstNameSuffixList.filter((d) => d.firstName).length;
 
   return (
-    <>
-      <WorkSpace isPrintMode={isPrintMode}>
-        <NengajoImage isPrintMode={isPrintMode} src="/nengajo.png" loading="lazy" alt="nengajo" />
-        <div>
-          <PostalCodeLeft isPrintMode={isPrintMode}>{hagakiInfo.postalcode_left}</PostalCodeLeft>
-          <PostalCodeRight isPrintMode={isPrintMode}>{hagakiInfo.postalcode_right}</PostalCodeRight>
-          <div css={Address1}>{hagakiInfo.address1}</div>
-          <div css={Address2}>{hagakiInfo.address2}</div>
-          <Name size={numberOfFirstNames()}>
-            <div>{hagakiInfo.lastName}</div>
-            <div>
-              {hagakiInfo.firstNameSuffixList.map((d, index) => (
-                // biome-ignore lint: cannot find better key
-                <div key={index} css={Suffix}>
-                  <div>{d.firstName}</div>
-                  <div>{d.suffix}</div>
-                </div>
-              ))}
-            </div>
-          </Name>
-        </div>
-        <div>
-          <div css={FromAddress1}>{hagakiData?.[0]?.address1}</div>
-          <div css={FromAddress2}>{hagakiData?.[0]?.address2}</div>
-          <div css={FromName}>
-            <div>{hagakiData?.[0]?.lastName}</div>
-            <div css={FromFirstName}>
-              <div>{hagakiData?.[0]?.firstNameSuffixList?.[0]?.firstName}</div>
-              <div>{hagakiData?.[0]?.firstNameSuffixList?.[1]?.firstName}</div>
-            </div>
+    <WorkSpace isPrintMode={isPrintMode}>
+      <NengajoImage isPrintMode={isPrintMode} src='/nengajo.png' loading='lazy' alt='nengajo' />
+      <div>
+        <PostalCodeLeft isPrintMode={isPrintMode}>{hagakiInfo.postalcode_left}</PostalCodeLeft>
+        <PostalCodeRight isPrintMode={isPrintMode}>{hagakiInfo.postalcode_right}</PostalCodeRight>
+        <div css={Address1}>{hagakiInfo.address1}</div>
+        <div css={Address2}>{hagakiInfo.address2}</div>
+        <Name size={numberOfFirstNames()}>
+          <div>{hagakiInfo.lastName}</div>
+          <div>
+            {hagakiInfo.firstNameSuffixList.map((d, index) => (
+              // biome-ignore lint: cannot find better key
+              <div key={index} css={Suffix}>
+                <div>{d.firstName}</div>
+                <div>{d.suffix}</div>
+              </div>
+            ))}
           </div>
-          <FromPostalCodeLeft isPrintMode={isPrintMode}>{hagakiData?.[0]?.postalcode_left}</FromPostalCodeLeft>
-          <FromPostalCodeRight isPrintMode={isPrintMode}>{hagakiData?.[0]?.postalcode_right}</FromPostalCodeRight>
+        </Name>
+      </div>
+      <div>
+        <div css={FromAddress1}>{hagakiData?.[0]?.address1}</div>
+        <div css={FromAddress2}>{hagakiData?.[0]?.address2}</div>
+        <div css={FromName}>
+          <div>{hagakiData?.[0]?.lastName}</div>
+          <div css={FromFirstName}>
+            <div>{hagakiData?.[0]?.firstNameSuffixList?.[0]?.firstName}</div>
+            <div>{hagakiData?.[0]?.firstNameSuffixList?.[1]?.firstName}</div>
+          </div>
         </div>
-      </WorkSpace>
-    </>
+        <FromPostalCodeLeft isPrintMode={isPrintMode}>{hagakiData?.[0]?.postalcode_left}</FromPostalCodeLeft>
+        <FromPostalCodeRight isPrintMode={isPrintMode}>{hagakiData?.[0]?.postalcode_right}</FromPostalCodeRight>
+      </div>
+    </WorkSpace>
   );
 };
 

@@ -3,7 +3,7 @@ import HomeIcon from '@mui/icons-material/Home';
 
 const TextFieldHomeIcon = () => {
   return (
-    <InputAdornment position="start">
+    <InputAdornment position='start'>
       <HomeIcon />
     </InputAdornment>
   );

@@ -3,7 +3,7 @@ import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined
 
 const TextFieldPersonIcon = () => {
   return (
-    <InputAdornment position="start">
+    <InputAdornment position='start'>
       <AccountCircleOutlinedIcon />
     </InputAdornment>
   );

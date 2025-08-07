@@ -51,14 +51,14 @@ const NavBar = () => {
 
   return (
     <div css={NavContainer}>
-      <Link href="/" css={MainTitle}>
-        <Typography variant="h6" gutterBottom component="div">
+      <Link href='/' css={MainTitle}>
+        <Typography variant='h6' gutterBottom component='div'>
           リーフライト
-          <EnergySavingsLeafIcon color="success" />
+          <EnergySavingsLeafIcon color='success' />
         </Typography>
       </Link>
       <Box sx={{ display: 'flex', flexGrow: 1, bgcolor: 'background.paper' }}>
-        <Tabs value={tabValue} onChange={onTabChange} orientation="vertical">
+        <Tabs value={tabValue} onChange={onTabChange} orientation='vertical'>
           <Tab label={'Home'} />
           <Tab label={'Address Book'} />
           <Tab label={'My Info'} />
