@@ -2,12 +2,12 @@ import { useState, useEffect, useCallback } from 'react';
 import { Box, Button } from '@mui/material';
 import {
   DataGrid,
-  GridToolbarContainer,
   GridToolbarExportContainer,
   GridCsvExportMenuItem,
   GridActionsCellItem,
   type GridColDef,
   type GridRowParams,
+  Toolbar,
 } from '@mui/x-data-grid';
 import DeleteIcon from '@mui/icons-material/DeleteOutlined';
 import FileUploadOutlinedIcon from '@mui/icons-material/FileUploadOutlined';
@@ -97,7 +97,7 @@ const AddressBook = () => {
 
   const CustomToolbar = () => {
     return (
-      <GridToolbarContainer>
+      <Toolbar>
         <GridToolbarExportContainer>
           <GridCsvExportMenuItem
             options={{
@@ -115,7 +115,7 @@ const AddressBook = () => {
           </Button>
         </label>
         <Button onClick={onOpenDialog}>住所追加</Button>
-      </GridToolbarContainer>
+      </Toolbar>
     );
   };
 
@@ -175,6 +175,7 @@ const AddressBook = () => {
         slots={{
           toolbar: CustomToolbar,
         }}
+        showToolbar
       />
       <NewAddressDialog open={openDialog} onCloseDialog={onCloseDialog} />
     </Box>
